@@ -18,32 +18,27 @@ namespace BattleCity.NET
             Error = false;
             InitializeComponent();
             DirectoryInfo dir = new DirectoryInfo(Directory.GetCurrentDirectory());
+
             foreach (FileInfo files in dir.GetFiles("*.dll"))
             {
                 cbDLLs.Items.Add(Path.GetFileName(files.FullName));
             }
+
             if (cbDLLs.Items.Count > 0)
             {
                 cbDLLs.Text = cbDLLs.Items[0].ToString();
             }
-            dir = new DirectoryInfo(Directory.GetCurrentDirectory() + @"\Images\Tanks");
-            try
-            {
-                foreach (FileInfo files in dir.GetFiles("*.png"))
-                {
-                    cbImage.Items.Add(Path.GetFileName(files.FullName));
-                }
-            }
-            catch
-            {
-                MessageBox.Show(this, "Cannot find images", "ERROR!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Error = true;
-                return;
-            }
+
+            cbImage.Items.Add("Blue");
+            cbImage.Items.Add("Green");
+            cbImage.Items.Add("Red");
+            cbImage.Items.Add("Yellow");
+
             if (cbImage.Items.Count > 0)
             {
                 cbImage.Text = cbImage.Items[0].ToString();
             }
+
             dir = null;
             tanks = new List<CTankInfo>();
         }
@@ -62,17 +57,16 @@ namespace BattleCity.NET
 
         void LoadImage(PictureBox img, string str)
         {
-            img.ImageLocation = str;
-            try
-            {
-                img.Load();
-            }
-            catch
-            {
-                MessageBox.Show(this, "Cannot find images", "ERROR!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			Bitmap bm = (Bitmap)Properties.Resources.ResourceManager.GetObject("tank_" + str.ToLower());
+
+			if (bm == null)
+			{
+				MessageBox.Show(this, "Cannot find images", "ERROR!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Error = true;
                 return;
-            }
+			}
+
+			img.Image = bm;
         }
 
         void UpdateList()
@@ -84,28 +78,25 @@ namespace BattleCity.NET
             if (tanks.Count > 0)
             {
                 lTank1DLL.Text = tanks[0].GetDLL();
-                LoadImage(pbTank1Image, @"Images\Tanks\" + tanks[0].GetImage());
+                LoadImage(pbTank1Image, tanks[0].GetImage());
                 gbTank1.Visible = true;
             }
             if (tanks.Count > 1)
             {
                 lTank2DLL.Text = tanks[1].GetDLL();
-                pbTank2Image.ImageLocation = @"Images\Tanks\" + tanks[1].GetImage();
-                pbTank2Image.Load();
+				LoadImage(pbTank2Image, tanks[1].GetImage());
                 gbTank2.Visible = true;
             }
             if (tanks.Count > 2)
             {
                 lTank3DLL.Text = tanks[2].GetDLL();
-                pbTank3Image.ImageLocation = @"Images\Tanks\" + tanks[2].GetImage();
-                pbTank3Image.Load();
+				LoadImage(pbTank3Image, tanks[2].GetImage());
                 gbTank3.Visible = true;
             }
             if (tanks.Count > 3)
             {
                 lTank4DLL.Text = tanks[3].GetDLL();
-                pbTank4Image.ImageLocation = @"Images\Tanks\" + tanks[3].GetImage();
-                pbTank4Image.Load();
+				LoadImage(pbTank4Image, tanks[3].GetImage());
                 gbTank4.Visible = true;
             }
         }

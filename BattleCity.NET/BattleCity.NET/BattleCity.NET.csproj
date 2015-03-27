@@ -139,6 +139,28 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\shot.wav" />
+    <None Include="Resources\player_death.wav" />
+    <None Include="Resources\level_start.wav" />
+    <None Include="Resources\game_over.wav" />
+    <None Include="Resources\explode.wav" />
+    <None Include="Resources\wrecked.png" />
+    <None Include="Resources\shell.png" />
+    <None Include="Resources\explosion.png" />
+    <None Include="Resources\turret_yellow.png" />
+    <None Include="Resources\turret_red.png" />
+    <None Include="Resources\turret_green.png" />
+    <None Include="Resources\turret_blue.png" />
+    <None Include="Resources\base_yellow.png" />
+    <None Include="Resources\base_red.png" />
+    <None Include="Resources\base_green.png" />
+    <None Include="Resources\base_blue.png" />
+    <None Include="Resources\tank_yellow.png" />
+    <None Include="Resources\tank_red.png" />
+    <None Include="Resources\tank_green.png" />
+    <None Include="Resources\tank_blue.png" />
+    <None Include="Resources\MedicineChest.png" />
+    <None Include="Resources\fon.png" />
     <None Include="bin\Debug\Images\map.png" />
     <None Include="bin\Debug\Images\fon.png" />
     <Content Include="icon.ico" />

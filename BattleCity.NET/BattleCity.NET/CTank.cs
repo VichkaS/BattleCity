@@ -55,18 +55,18 @@ namespace BattleCity.NET
         public CTank(string dll, string image, List<CTank> tanks)
         {
             LoadDLL(dll);
-            try
-            {
-                m_base = Image.FromFile(@"Images\Bases\" + image);
-                m_turret = Image.FromFile(@"Images\Turrets\" + image);
-                m_tank = Image.FromFile(@"Images\Tanks\" + image);
-                
-            }
-            catch
-            {
-                CConstants.error = 1;
-                return;
-            }
+
+			image = image.ToLower();
+			m_base = (Bitmap)Properties.Resources.ResourceManager.GetObject("base_" + image);
+			m_turret = (Bitmap)Properties.Resources.ResourceManager.GetObject("turret_" + image);
+			m_tank = (Bitmap)Properties.Resources.ResourceManager.GetObject("tank_" + image);
+
+			if (m_base == null || m_turret == null || m_tank == null)
+			{
+				CConstants.error = 1;
+				return;
+			}
+
             m_base = m_base.GetThumbnailImage(CConstants.tankSize, CConstants.tankSize, null, IntPtr.Zero);
             m_turret = m_turret.GetThumbnailImage(CConstants.turretSize, CConstants.turretSize, null, IntPtr.Zero);
             m_tank = m_tank.GetThumbnailImage(50, 50, null, IntPtr.Zero);

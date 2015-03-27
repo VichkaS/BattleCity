@@ -19,9 +19,11 @@ namespace BattleCity.NET
             this.SetStyle(ControlStyles.AllPaintingInWmPaint |
                ControlStyles.UserPaint |
                ControlStyles.DoubleBuffer, true);
-            this.BackgroundImage = Image.FromFile(@"Images\fon.png");
             this.BackgroundImageLayout = ImageLayout.None;
-            m_ImageMedicineChest = Image.FromFile(@"Images\" + igmeName);
+
+			this.BackgroundImage = (Bitmap)Properties.Resources.ResourceManager.GetObject("fon"); 
+			m_ImageMedicineChest = (Bitmap)Properties.Resources.ResourceManager.GetObject("MedicineChest");
+
             timer1.Interval = CConstants.refreshTime;
             this.Width = CConstants.formWidth + 218;
             this.Height = CConstants.formHeight + 47;
@@ -49,7 +51,7 @@ namespace BattleCity.NET
         private short deadPlace = 1;
         private CManagerMedChest m_medChests;
         private  Image m_ImageMedicineChest;
-        private const string igmeName = "MedicineChest.png";
+        
         public static Point[] GetRotatedRectangle(int degree, int size, double x0, double y0)
         {
             int x = -size / 2;
@@ -71,7 +73,9 @@ namespace BattleCity.NET
         public static void PlaySound(string path)
         {
             SoundPlayer player = new SoundPlayer();
-            player.SoundLocation = @"Sound/" + path + ".wav";
+
+			player.Stream = Properties.Resources.ResourceManager.GetStream(path);
+
             try
             {
                 player.Play();

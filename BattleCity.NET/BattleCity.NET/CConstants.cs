@@ -13,17 +13,17 @@ namespace BattleCity.NET
         static CConstants()
         {
             error = 0;
-            try
-            {
-                explosion = Image.FromFile(@"Images\explosion.png");
-                shell = Image.FromFile(@"Images\shell.png");
-                wrecked = Image.FromFile(@"Images\wrecked.png");
-            }
-            catch
+			
+			explosion = (Bitmap)Properties.Resources.ResourceManager.GetObject("explosion");
+			shell = (Bitmap)Properties.Resources.ResourceManager.GetObject("shell");
+			wrecked = (Bitmap)Properties.Resources.ResourceManager.GetObject("wrecked");
+            
+			if (explosion == null || shell == null || wrecked == null)
             {
                 error = 1;
                 return;
             }
+
             explosion = explosion.GetThumbnailImage(CConstants.tankSize, CConstants.tankSize, null, IntPtr.Zero);
             shell = shell.GetThumbnailImage(CConstants.shellSize, CConstants.shellSize, null, IntPtr.Zero);
             wrecked = wrecked.GetThumbnailImage(CConstants.tankSize, CConstants.tankSize, null, IntPtr.Zero);
