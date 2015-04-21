@@ -71,10 +71,12 @@
     <Compile Include="CConstants.cs" />
     <Compile Include="CExplosion.cs" />
     <Compile Include="CManagerMedChest.cs" />
+    <Compile Include="CMatchParameters.cs" />
     <Compile Include="CMedicineChest.cs" />
     <Compile Include="CProgressBar.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="CResourceManager.cs" />
     <Compile Include="CShell.cs" />
     <Compile Include="CShellTrack.cs" />
     <Compile Include="CTank.cs" />
@@ -92,6 +94,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SettingsDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SettingsDialog.Designer.cs">
+      <DependentUpon>SettingsDialog.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -102,6 +110,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SettingsDialog.resx">
+      <DependentUpon>SettingsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

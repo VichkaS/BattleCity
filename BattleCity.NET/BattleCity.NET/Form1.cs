@@ -13,8 +13,12 @@ namespace BattleCity.NET
 {
     public partial class Form1 : Form
     {
+		private CMatchParameters m_params;
+
         public Form1()
         {
+			m_params = new CMatchParameters();
+
             Error = false;
             InitializeComponent();
             DirectoryInfo dir = new DirectoryInfo(Directory.GetCurrentDirectory());
@@ -172,5 +176,11 @@ namespace BattleCity.NET
                 return;
             }
         }
+
+		private void bSettings_Click(object sender, EventArgs e)
+		{
+			SettingsDialog settingsDlg = new SettingsDialog(m_params);
+			settingsDlg.ShowDialog(this);
+		}
     }
 }

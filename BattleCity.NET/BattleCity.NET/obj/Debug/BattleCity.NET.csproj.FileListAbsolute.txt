@@ -8,3 +8,4 @@ D:\Documents\Projects\GitHub\BattleCity\BattleCity.NET\BattleCity.NET\bin\Debug\
 D:\Documents\Projects\GitHub\BattleCity\BattleCity.NET\BattleCity.NET\obj\Debug\BattleCity.NET.Properties.Resources.resources
 D:\Documents\Projects\GitHub\BattleCity\BattleCity.NET\BattleCity.NET\obj\Debug\BattleCity.NET.exe
 D:\Documents\Projects\GitHub\BattleCity\BattleCity.NET\BattleCity.NET\obj\Debug\BattleCity.NET.pdb
+D:\Documents\Projects\GitHub\BattleCity\BattleCity.NET\BattleCity.NET\obj\Debug\BattleCity.NET.SettingsDialog.resources
