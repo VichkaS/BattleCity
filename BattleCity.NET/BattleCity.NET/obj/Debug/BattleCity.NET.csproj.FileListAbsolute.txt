@@ -9,3 +9,4 @@ D:\Documents\Projects\GitHub\BattleCity\BattleCity.NET\BattleCity.NET\obj\Debug\
 D:\Documents\Projects\GitHub\BattleCity\BattleCity.NET\BattleCity.NET\obj\Debug\BattleCity.NET.pdb
 D:\Documents\Projects\GitHub\BattleCity\BattleCity.NET\BattleCity.NET\obj\Debug\BattleCity.NET.FGameSetup.resources
 D:\Documents\Projects\GitHub\BattleCity\BattleCity.NET\BattleCity.NET\obj\Debug\BattleCity.NET.FMatchSettings.resources
+D:\Documents\Projects\GitHub\BattleCity\BattleCity.NET\BattleCity.NET\obj\Debug\BattleCity.NET.FResults.resources

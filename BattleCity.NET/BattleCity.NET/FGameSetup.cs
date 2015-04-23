@@ -182,5 +182,11 @@ namespace BattleCity.NET
 			FMatchSettings settingsDlg = new FMatchSettings(m_params);
 			settingsDlg.ShowDialog(this);
 		}
+
+		private void button1_Click(object sender, EventArgs e)
+		{
+			FResults resForm = new FResults();
+			resForm.ShowDialog(this);
+		}
     }
 }
