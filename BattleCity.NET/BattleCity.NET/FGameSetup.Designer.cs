@@ -364,7 +364,7 @@
 			this.bSettings.Name = "bSettings";
 			this.bSettings.Size = new System.Drawing.Size(75, 23);
 			this.bSettings.TabIndex = 10;
-			this.bSettings.Text = "Настройки";
+			this.bSettings.Text = "Options";
 			this.bSettings.UseVisualStyleBackColor = true;
 			this.bSettings.Click += new System.EventHandler(this.bSettings_Click);
 			// 
@@ -380,6 +380,7 @@
 			// 
 			// FGameSetup
 			// 
+			this.AcceptButton = this.bNext;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(359, 341);

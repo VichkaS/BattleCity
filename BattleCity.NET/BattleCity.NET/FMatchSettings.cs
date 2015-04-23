@@ -14,14 +14,65 @@ namespace BattleCity.NET
 	{
 		private CMatchParameters m_params;
 
-		private void InitTrackBar(TrackBar tb, CMatchParameters.CLimitedValue val, Label label)
+		private void UpdateBonusFreq()
+		{
+			if (tbBonusFreq.Value == 0)
+			{
+				lBonusFreq.Text = "do not spawn";
+			}
+			else
+			{
+				lBonusFreq.Text = tbBonusFreq.Value.ToString() + " per minute";
+			}
+		}
+
+		private void UpdateAntibFreq()
+		{
+			if (tbAntibFreq.Value == 0)
+			{
+				lAntibFreq.Text = "do not spawn";
+			}
+			else
+			{
+				lAntibFreq.Text = tbAntibFreq.Value.ToString() + " per minute";
+			}
+		}
+
+		private void UpdateReloadTime()
+		{
+			lReloadTime.Text = tbReloadTime.Value.ToString() + " second";
+			if (tbReloadTime.Value != 1)
+			{
+				lReloadTime.Text += "s";
+			}
+		}
+
+		private void UpdateHealth()
+		{
+			lHealth.Text = tbHealth.Value.ToString() + " hp";
+		}
+
+		private void UpdateSpeed()
+		{
+			lSpeed.Text = tbSpeed.Value.ToString() + "%";
+		}
+
+		private delegate void LabelUpdateProc();
+		private void InitTrackBar(TrackBar tb, CMatchParameters.CLimitedValue val, LabelUpdateProc updateProc)
 		{
 			tb.Maximum = val.max;
 			tb.Minimum = val.min;
 			tb.Value = val;
-			tb.TickFrequency = Math.Max((tb.Maximum - tb.Minimum) / 20, 1);
 
-			label.Text = tb.Value.ToString();
+			int tickFrequency = Convert.ToInt32((tb.Maximum - tb.Minimum) / 20.0);
+			tb.TickFrequency = Math.Max(tickFrequency, 1);
+
+			// updateProc – процедура обновления текста надписи в соответствии со значением трекбара
+			// Установим её как обработчик события Scroll
+			tb.Scroll += delegate(System.Object o, System.EventArgs e)
+			{ updateProc(); };
+			// И вызовем на этапе инициализации, чтобы задать надписи значение по умолчанию
+			updateProc();
 		}
 
 		public FMatchSettings(CMatchParameters match_parameters)
@@ -29,52 +80,28 @@ namespace BattleCity.NET
 			InitializeComponent();
 			m_params = match_parameters;
 
+			InitTrackBar(tbBonusFreq, m_params.medkit_spawn_rate, UpdateBonusFreq);
+			InitTrackBar(tbAntibFreq, m_params.slowness_spawn_rate, UpdateAntibFreq);
+			InitTrackBar(tbReloadTime, m_params.reload_time, UpdateReloadTime);
+			InitTrackBar(tbHealth, m_params.health_points, UpdateHealth);
+			InitTrackBar(tbSpeed, m_params.speed, UpdateSpeed);
 			cbFieldSize.SelectedIndex = (int)m_params.screen_size;
-			InitTrackBar(tbBonusFreq, m_params.medkit_spawn_rate, lBonusFreq);
-			InitTrackBar(tbAntibFreq, m_params.slowness_spawn_rate, lAntibFreq);
-			InitTrackBar(tbShootingFreq, m_params.reload_time, lShootingFreq);
-			InitTrackBar(tbHealth, m_params.health_points, lHealth);
-			InitTrackBar(tbSpeed, m_params.speed, lSpeed);
-		}
-
-		private void bCancel_Click(object sender, EventArgs e)
-		{
-			this.Close();
-		}
-
-		private void tbBonusFreq_Scroll(object sender, EventArgs e)
-		{
-			lBonusFreq.Text = tbBonusFreq.Value.ToString();
-		}
-
-		private void tbAntibFreq_Scroll(object sender, EventArgs e)
-		{
-			lAntibFreq.Text = tbAntibFreq.Value.ToString();
-		}
-
-		private void tbShootingFreq_Scroll(object sender, EventArgs e)
-		{
-			lShootingFreq.Text = tbShootingFreq.Value.ToString();
-		}
-
-		private void tbHealth_Scroll(object sender, EventArgs e)
-		{
-			lHealth.Text = tbHealth.Value.ToString();
-		}
-
-		private void tbSpeed_Scroll(object sender, EventArgs e)
-		{
-			lSpeed.Text = tbSpeed.Value.ToString();
 		}
 
 		private void bOk_Click(object sender, EventArgs e)
 		{
-			m_params.screen_size = (CMatchParameters.EScreenSize)cbFieldSize.SelectedIndex;
 			m_params.medkit_spawn_rate.Assign(tbBonusFreq.Value);
 			m_params.slowness_spawn_rate.Assign(tbAntibFreq.Value);
-			m_params.reload_time.Assign(tbShootingFreq.Value);
+			m_params.reload_time.Assign(tbReloadTime.Value);
 			m_params.health_points.Assign(tbHealth.Value);
 			m_params.speed.Assign(tbSpeed.Value);
+			m_params.screen_size = (CMatchParameters.EScreenSize)cbFieldSize.SelectedIndex;
+
+			this.Close();
+		}
+
+		private void bCancel_Click(object sender, EventArgs e)
+		{
 			this.Close();
 		}
 	}

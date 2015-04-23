@@ -62,11 +62,11 @@ namespace BattleCity.NET
 
 		public CMatchParameters()
 		{
-			medkit_spawn_rate = new CLimitedValue(0, 60, 5);
-			slowness_spawn_rate = new CLimitedValue(0, 60, 3);
-			reload_time = new CLimitedValue(10, 600, 80);
+			medkit_spawn_rate = new CLimitedValue(0, 30, 5);
+			slowness_spawn_rate = new CLimitedValue(0, 30, 3);
+			reload_time = new CLimitedValue(1, 60, 8);
 			health_points = new CLimitedValue(1, 200, 100);
-			speed = new CLimitedValue(1, 20, 2);
+			speed = new CLimitedValue(20, 200, 100);
 			screen_size = EScreenSize.Standard;
 		}
 
@@ -74,11 +74,11 @@ namespace BattleCity.NET
 		public CLimitedValue medkit_spawn_rate;
 		// Частота появления антибонусов (штук в минуту)
 		public CLimitedValue slowness_spawn_rate;
-		// Время перезарядки (в секундах * 10)
+		// Время перезарядки (в секундах)
 		public CLimitedValue reload_time;
 		// Здоровье танка
 		public CLimitedValue health_points;
-		// Скорость танка
+		// Скорость передвижения (в процентах от нормальной)
 		public CLimitedValue speed;
 		// Размер игрового поля
 		public EScreenSize screen_size;

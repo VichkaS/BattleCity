@@ -38,18 +38,18 @@
 			this.bOk = new System.Windows.Forms.Button();
 			this.bCancel = new System.Windows.Forms.Button();
 			this.tbAntibFreq = new System.Windows.Forms.TrackBar();
-			this.tbShootingFreq = new System.Windows.Forms.TrackBar();
+			this.tbReloadTime = new System.Windows.Forms.TrackBar();
 			this.tbHealth = new System.Windows.Forms.TrackBar();
 			this.tbSpeed = new System.Windows.Forms.TrackBar();
 			this.cbFieldSize = new System.Windows.Forms.ComboBox();
 			this.lBonusFreq = new System.Windows.Forms.Label();
 			this.lAntibFreq = new System.Windows.Forms.Label();
-			this.lShootingFreq = new System.Windows.Forms.Label();
+			this.lReloadTime = new System.Windows.Forms.Label();
 			this.lHealth = new System.Windows.Forms.Label();
 			this.lSpeed = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.tbBonusFreq)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.tbAntibFreq)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.tbShootingFreq)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.tbReloadTime)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.tbHealth)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.tbSpeed)).BeginInit();
 			this.SuspendLayout();
@@ -61,61 +61,60 @@
 			this.tbBonusFreq.Name = "tbBonusFreq";
 			this.tbBonusFreq.Size = new System.Drawing.Size(137, 42);
 			this.tbBonusFreq.TabIndex = 0;
-			this.tbBonusFreq.Scroll += new System.EventHandler(this.tbBonusFreq_Scroll);
 			// 
 			// label1
 			// 
 			this.label1.AutoSize = true;
 			this.label1.Location = new System.Drawing.Point(9, 9);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(152, 13);
+			this.label1.Size = new System.Drawing.Size(128, 13);
 			this.label1.TabIndex = 3;
-			this.label1.Text = "Частота появления аптечек:";
+			this.label1.Text = "Health bonus spawn rate:";
 			// 
 			// label2
 			// 
 			this.label2.AutoSize = true;
 			this.label2.Location = new System.Drawing.Point(12, 57);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(176, 13);
+			this.label2.Size = new System.Drawing.Size(110, 13);
 			this.label2.TabIndex = 4;
-			this.label2.Text = "Частота появления антибонусов:";
+			this.label2.Text = "Slowness spawn rate:";
 			// 
 			// label3
 			// 
 			this.label3.AutoSize = true;
 			this.label3.Location = new System.Drawing.Point(12, 105);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(104, 13);
+			this.label3.Size = new System.Drawing.Size(66, 13);
 			this.label3.TabIndex = 5;
-			this.label3.Text = "Частота стрельбы:";
+			this.label3.Text = "Reload time:";
 			// 
 			// label4
 			// 
 			this.label4.AutoSize = true;
 			this.label4.Location = new System.Drawing.Point(12, 153);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(91, 13);
+			this.label4.Size = new System.Drawing.Size(67, 13);
 			this.label4.TabIndex = 6;
-			this.label4.Text = "Здоровье танка:";
+			this.label4.Text = "Tank health:";
 			// 
 			// label5
 			// 
 			this.label5.AutoSize = true;
 			this.label5.Location = new System.Drawing.Point(12, 201);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(135, 13);
+			this.label5.Size = new System.Drawing.Size(92, 13);
 			this.label5.TabIndex = 7;
-			this.label5.Text = "Скорость передвижения:";
+			this.label5.Text = "Movement speed:";
 			// 
 			// label6
 			// 
 			this.label6.AutoSize = true;
 			this.label6.Location = new System.Drawing.Point(12, 249);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(125, 13);
+			this.label6.Size = new System.Drawing.Size(81, 13);
 			this.label6.TabIndex = 8;
-			this.label6.Text = "Размер игрового поля:";
+			this.label6.Text = "Game field size:";
 			// 
 			// bOk
 			// 
@@ -123,7 +122,7 @@
 			this.bOk.Name = "bOk";
 			this.bOk.Size = new System.Drawing.Size(75, 23);
 			this.bOk.TabIndex = 7;
-			this.bOk.Text = "Ок";
+			this.bOk.Text = "Ok";
 			this.bOk.UseVisualStyleBackColor = true;
 			this.bOk.Click += new System.EventHandler(this.bOk_Click);
 			// 
@@ -134,7 +133,7 @@
 			this.bCancel.Name = "bCancel";
 			this.bCancel.Size = new System.Drawing.Size(75, 23);
 			this.bCancel.TabIndex = 6;
-			this.bCancel.Text = "Отмена";
+			this.bCancel.Text = "Cancel";
 			this.bCancel.UseVisualStyleBackColor = true;
 			this.bCancel.Click += new System.EventHandler(this.bCancel_Click);
 			// 
@@ -145,16 +144,14 @@
 			this.tbAntibFreq.Name = "tbAntibFreq";
 			this.tbAntibFreq.Size = new System.Drawing.Size(137, 42);
 			this.tbAntibFreq.TabIndex = 1;
-			this.tbAntibFreq.Scroll += new System.EventHandler(this.tbAntibFreq_Scroll);
 			// 
-			// tbShootingFreq
+			// tbReloadTime
 			// 
-			this.tbShootingFreq.LargeChange = 10;
-			this.tbShootingFreq.Location = new System.Drawing.Point(248, 105);
-			this.tbShootingFreq.Name = "tbShootingFreq";
-			this.tbShootingFreq.Size = new System.Drawing.Size(137, 42);
-			this.tbShootingFreq.TabIndex = 2;
-			this.tbShootingFreq.Scroll += new System.EventHandler(this.tbShootingFreq_Scroll);
+			this.tbReloadTime.LargeChange = 10;
+			this.tbReloadTime.Location = new System.Drawing.Point(248, 105);
+			this.tbReloadTime.Name = "tbReloadTime";
+			this.tbReloadTime.Size = new System.Drawing.Size(137, 42);
+			this.tbReloadTime.TabIndex = 2;
 			// 
 			// tbHealth
 			// 
@@ -163,7 +160,6 @@
 			this.tbHealth.Name = "tbHealth";
 			this.tbHealth.Size = new System.Drawing.Size(137, 42);
 			this.tbHealth.TabIndex = 3;
-			this.tbHealth.Scroll += new System.EventHandler(this.tbHealth_Scroll);
 			// 
 			// tbSpeed
 			// 
@@ -172,16 +168,15 @@
 			this.tbSpeed.Name = "tbSpeed";
 			this.tbSpeed.Size = new System.Drawing.Size(137, 42);
 			this.tbSpeed.TabIndex = 4;
-			this.tbSpeed.Scroll += new System.EventHandler(this.tbSpeed_Scroll);
 			// 
 			// cbFieldSize
 			// 
 			this.cbFieldSize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cbFieldSize.FormattingEnabled = true;
 			this.cbFieldSize.Items.AddRange(new object[] {
-            "Маленькое",
-            "Стандартное",
-            "Большое"});
+            "Small",
+            "Medium",
+            "Large"});
 			this.cbFieldSize.Location = new System.Drawing.Point(248, 249);
 			this.cbFieldSize.Name = "cbFieldSize";
 			this.cbFieldSize.Size = new System.Drawing.Size(137, 21);
@@ -189,53 +184,49 @@
 			// 
 			// lBonusFreq
 			// 
-			this.lBonusFreq.AutoSize = true;
-			this.lBonusFreq.Location = new System.Drawing.Point(211, 16);
+			this.lBonusFreq.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.lBonusFreq.Location = new System.Drawing.Point(163, 16);
 			this.lBonusFreq.Name = "lBonusFreq";
-			this.lBonusFreq.Size = new System.Drawing.Size(35, 13);
+			this.lBonusFreq.Size = new System.Drawing.Size(79, 13);
 			this.lBonusFreq.TabIndex = 16;
-			this.lBonusFreq.Text = "label7";
-			this.lBonusFreq.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.lBonusFreq.Text = "label";
+			this.lBonusFreq.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// lAntibFreq
 			// 
-			this.lAntibFreq.AutoSize = true;
-			this.lAntibFreq.Location = new System.Drawing.Point(211, 64);
+			this.lAntibFreq.Location = new System.Drawing.Point(163, 64);
 			this.lAntibFreq.Name = "lAntibFreq";
-			this.lAntibFreq.Size = new System.Drawing.Size(35, 13);
+			this.lAntibFreq.Size = new System.Drawing.Size(79, 13);
 			this.lAntibFreq.TabIndex = 17;
-			this.lAntibFreq.Text = "label8";
-			this.lAntibFreq.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.lAntibFreq.Text = "label";
+			this.lAntibFreq.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
-			// lShootingFreq
+			// lReloadTime
 			// 
-			this.lShootingFreq.AutoSize = true;
-			this.lShootingFreq.Location = new System.Drawing.Point(211, 112);
-			this.lShootingFreq.Name = "lShootingFreq";
-			this.lShootingFreq.Size = new System.Drawing.Size(35, 13);
-			this.lShootingFreq.TabIndex = 18;
-			this.lShootingFreq.Text = "label9";
-			this.lShootingFreq.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.lReloadTime.Location = new System.Drawing.Point(163, 112);
+			this.lReloadTime.Name = "lReloadTime";
+			this.lReloadTime.Size = new System.Drawing.Size(79, 13);
+			this.lReloadTime.TabIndex = 18;
+			this.lReloadTime.Text = "label";
+			this.lReloadTime.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// lHealth
 			// 
-			this.lHealth.AutoSize = true;
-			this.lHealth.Location = new System.Drawing.Point(211, 160);
+			this.lHealth.Location = new System.Drawing.Point(163, 160);
 			this.lHealth.Name = "lHealth";
-			this.lHealth.Size = new System.Drawing.Size(29, 13);
+			this.lHealth.Size = new System.Drawing.Size(79, 13);
 			this.lHealth.TabIndex = 19;
 			this.lHealth.Text = "label";
-			this.lHealth.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.lHealth.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// lSpeed
 			// 
-			this.lSpeed.AutoSize = true;
-			this.lSpeed.Location = new System.Drawing.Point(211, 208);
+			this.lSpeed.Location = new System.Drawing.Point(163, 208);
 			this.lSpeed.Name = "lSpeed";
-			this.lSpeed.Size = new System.Drawing.Size(29, 13);
+			this.lSpeed.Size = new System.Drawing.Size(79, 13);
 			this.lSpeed.TabIndex = 20;
 			this.lSpeed.Text = "label";
-			this.lSpeed.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.lSpeed.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// FMatchSettings
 			// 
@@ -246,13 +237,13 @@
 			this.ClientSize = new System.Drawing.Size(393, 320);
 			this.Controls.Add(this.lSpeed);
 			this.Controls.Add(this.lHealth);
-			this.Controls.Add(this.lShootingFreq);
+			this.Controls.Add(this.lReloadTime);
 			this.Controls.Add(this.lAntibFreq);
 			this.Controls.Add(this.lBonusFreq);
 			this.Controls.Add(this.cbFieldSize);
 			this.Controls.Add(this.tbSpeed);
 			this.Controls.Add(this.tbHealth);
-			this.Controls.Add(this.tbShootingFreq);
+			this.Controls.Add(this.tbReloadTime);
 			this.Controls.Add(this.tbAntibFreq);
 			this.Controls.Add(this.bCancel);
 			this.Controls.Add(this.bOk);
@@ -267,10 +258,10 @@
 			this.MaximizeBox = false;
 			this.Name = "FMatchSettings";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-			this.Text = "Настройки матча";
+			this.Text = "Game options";
 			((System.ComponentModel.ISupportInitialize)(this.tbBonusFreq)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.tbAntibFreq)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.tbShootingFreq)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.tbReloadTime)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.tbHealth)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.tbSpeed)).EndInit();
 			this.ResumeLayout(false);
@@ -290,13 +281,13 @@
 		private System.Windows.Forms.Button bOk;
 		private System.Windows.Forms.Button bCancel;
 		private System.Windows.Forms.TrackBar tbAntibFreq;
-		private System.Windows.Forms.TrackBar tbShootingFreq;
+		private System.Windows.Forms.TrackBar tbReloadTime;
 		private System.Windows.Forms.TrackBar tbHealth;
 		private System.Windows.Forms.TrackBar tbSpeed;
 		private System.Windows.Forms.ComboBox cbFieldSize;
 		private System.Windows.Forms.Label lBonusFreq;
 		private System.Windows.Forms.Label lAntibFreq;
-		private System.Windows.Forms.Label lShootingFreq;
+		private System.Windows.Forms.Label lReloadTime;
 		private System.Windows.Forms.Label lHealth;
 		private System.Windows.Forms.Label lSpeed;
 
