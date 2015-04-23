@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace BattleCity.NET
 {
-	public partial class SettingsDialog : Form
+	public partial class FMatchSettings : Form
 	{
 		private CMatchParameters m_params;
 
@@ -24,7 +24,7 @@ namespace BattleCity.NET
 			label.Text = tb.Value.ToString();
 		}
 
-		public SettingsDialog(CMatchParameters match_parameters)
+		public FMatchSettings(CMatchParameters match_parameters)
 		{
 			InitializeComponent();
 			m_params = match_parameters;

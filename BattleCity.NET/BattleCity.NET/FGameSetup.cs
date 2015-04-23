@@ -11,11 +11,11 @@ using System.IO;
 
 namespace BattleCity.NET
 {
-    public partial class Form1 : Form
+    public partial class FGameSetup : Form
     {
 		private CMatchParameters m_params;
 
-        public Form1()
+        public FGameSetup()
         {
 			m_params = new CMatchParameters();
 
@@ -179,7 +179,7 @@ namespace BattleCity.NET
 
 		private void bSettings_Click(object sender, EventArgs e)
 		{
-			SettingsDialog settingsDlg = new SettingsDialog(m_params);
+			FMatchSettings settingsDlg = new FMatchSettings(m_params);
 			settingsDlg.ShowDialog(this);
 		}
     }

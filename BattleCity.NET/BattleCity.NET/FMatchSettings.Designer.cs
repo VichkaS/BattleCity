@@ -1,6 +1,6 @@
 ﻿namespace BattleCity.NET
 {
-	partial class SettingsDialog
+	partial class FMatchSettings
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -237,7 +237,7 @@
 			this.lSpeed.Text = "label";
 			this.lSpeed.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
-			// SettingsDialog
+			// FMatchSettings
 			// 
 			this.AcceptButton = this.bOk;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -265,7 +265,7 @@
 			this.Controls.Add(this.tbBonusFreq);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.MaximizeBox = false;
-			this.Name = "SettingsDialog";
+			this.Name = "FMatchSettings";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Настройки матча";
 			((System.ComponentModel.ISupportInitialize)(this.tbBonusFreq)).EndInit();
