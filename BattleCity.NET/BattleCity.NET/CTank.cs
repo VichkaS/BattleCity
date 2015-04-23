@@ -403,7 +403,7 @@ namespace BattleCity.NET
             if (m_health < 0)
             {
                 m_health = 0;
-                FBattleScreen.PlaySound("player_death");
+				CResourceManager.Instance.PlaySound(CResourceManager.ESoundEffect.PlayerDeath);
             }
         }
        

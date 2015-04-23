@@ -30,7 +30,7 @@ namespace BattleCity.NET
             shells = new List<CShell>();
             tanks = new List<CTank>();
             explosions = new List<CExplosion>();
-            PlaySound("level_start");
+			CResourceManager.Instance.PlaySound(CResourceManager.ESoundEffect.GameStart);
             m_medChests = new CManagerMedChest(tanks);
             for (int i = 0; i < 4; ++i)
             {
@@ -68,22 +68,6 @@ namespace BattleCity.NET
             double y3 = Math.Sin(degree * Math.PI / 180) * y - Math.Cos(degree * Math.PI / 180) * y;
             return new Point[] { new Point(Convert.ToInt32(x0 + x1), Convert.ToInt32(y0 + y1)),
                 new Point(Convert.ToInt32(x0 + x2), Convert.ToInt32(y0 + y2)), new Point(Convert.ToInt32(x0 + x3), Convert.ToInt32(y0 + y3)) };
-        }
-
-        public static void PlaySound(string path)
-        {
-            SoundPlayer player = new SoundPlayer();
-
-			player.Stream = Properties.Resources.ResourceManager.GetStream(path);
-
-            try
-            {
-                player.Play();
-            }
-            catch
-            {
-                return;
-            }
         }
 
         public void NewTank(string dll, string image)
@@ -262,7 +246,7 @@ namespace BattleCity.NET
             if (GameOver())
             {
                 timer1.Enabled = false;
-                PlaySound("game_over");
+				CResourceManager.Instance.PlaySound(CResourceManager.ESoundEffect.GameOver);
                 DialogResult result = MessageBox.Show(this, "Do you want to play another game?", GetWinner() + ". Game over", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == DialogResult.Yes)
                 {

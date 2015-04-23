@@ -32,13 +32,12 @@ namespace BattleCity.NET
 			Shot
 		}
 
-		private List<System.IO.Stream> m_sounds;
+		private System.IO.Stream[] m_sounds;
 
 		private CResourceManager()
 		{
-			// number_of_sounds должен бы быть const int, но C# и этого сделать не дает
-			/* const */ int number_of_sounds = (int)(Enum.GetValues(typeof(ESoundEffect)).Cast<ESoundEffect>().Max());
-			m_sounds = new List<System.IO.Stream>(number_of_sounds);
+			/* const */ int number_of_sounds = (int)(Enum.GetValues(typeof(ESoundEffect)).Cast<ESoundEffect>().Max()) + 1;
+			m_sounds = new System.IO.Stream[number_of_sounds];
 
 			m_sounds[(int)ESoundEffect.Explosion] = Properties.Resources.explode;
 			m_sounds[(int)ESoundEffect.GameStart] = Properties.Resources.level_start;
@@ -49,18 +48,11 @@ namespace BattleCity.NET
 
 		public void PlaySound(ESoundEffect sound_effect)
 		{
-			SoundPlayer player = new SoundPlayer();
+			System.IO.Stream soundStream = m_sounds[(int)sound_effect];
 
-			player.Stream = m_sounds[(int)sound_effect];
-
-			try
-			{
-				player.Play();
-			}
-			catch // нужно отлавливать только исключения SoundPlayer
-			{
-				return;
-			}
+			soundStream.Seek(0, System.IO.SeekOrigin.Begin);
+			SoundPlayer player = new SoundPlayer(soundStream);
+			player.Play();
 		}
 	}
 }

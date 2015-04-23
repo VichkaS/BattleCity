@@ -14,7 +14,8 @@ namespace BattleCity.NET
             m_x = x;
             m_y = y;
             duration = CConstants.explodeTime;
-            FBattleScreen.PlaySound("explode");
+
+			CResourceManager.Instance.PlaySound(CResourceManager.ESoundEffect.Explosion);
         }
         public void Update()
         {
