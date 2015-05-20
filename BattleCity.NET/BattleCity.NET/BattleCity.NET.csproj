@@ -71,37 +71,57 @@
     <Compile Include="CConstants.cs" />
     <Compile Include="CExplosion.cs" />
     <Compile Include="CManagerMedChest.cs" />
+    <Compile Include="CMatchParameters.cs" />
     <Compile Include="CMedicineChest.cs" />
     <Compile Include="CProgressBar.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="CResourceManager.cs" />
     <Compile Include="CShell.cs" />
     <Compile Include="CShellTrack.cs" />
     <Compile Include="CTank.cs" />
-    <Compile Include="Form1.cs">
+    <Compile Include="FGameSetup.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="FGameSetup.Designer.cs">
+      <DependentUpon>FGameSetup.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form2.cs">
+    <Compile Include="FBattleScreen.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form2.Designer.cs">
-      <DependentUpon>Form2.cs</DependentUpon>
+    <Compile Include="FBattleScreen.Designer.cs">
+      <DependentUpon>FBattleScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FResults.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FResults.Designer.cs">
+      <DependentUpon>FResults.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="FMatchSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FMatchSettings.Designer.cs">
+      <DependentUpon>FMatchSettings.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="FGameSetup.resx">
+      <DependentUpon>FGameSetup.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form2.resx">
-      <DependentUpon>Form2.cs</DependentUpon>
+    <EmbeddedResource Include="FBattleScreen.resx">
+      <DependentUpon>FBattleScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FResults.resx">
+      <DependentUpon>FResults.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FMatchSettings.resx">
+      <DependentUpon>FMatchSettings.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -139,6 +159,31 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\turret.png" />
+    <None Include="Resources\tank.png" />
+    <None Include="Resources\base.png" />
+    <None Include="Resources\shot.wav" />
+    <None Include="Resources\player_death.wav" />
+    <None Include="Resources\level_start.wav" />
+    <None Include="Resources\game_over.wav" />
+    <None Include="Resources\explode.wav" />
+    <None Include="Resources\wrecked.png" />
+    <None Include="Resources\shell.png" />
+    <None Include="Resources\explosion.png" />
+    <None Include="Resources\turret_yellow.png" />
+    <None Include="Resources\turret_red.png" />
+    <None Include="Resources\turret_green.png" />
+    <None Include="Resources\turret_blue.png" />
+    <None Include="Resources\base_yellow.png" />
+    <None Include="Resources\base_red.png" />
+    <None Include="Resources\base_green.png" />
+    <None Include="Resources\base_blue.png" />
+    <None Include="Resources\tank_yellow.png" />
+    <None Include="Resources\tank_red.png" />
+    <None Include="Resources\tank_green.png" />
+    <None Include="Resources\tank_blue.png" />
+    <None Include="Resources\MedicineChest.png" />
+    <None Include="Resources\fon.png" />
     <None Include="bin\Debug\Images\map.png" />
     <None Include="bin\Debug\Images\fon.png" />
     <Content Include="icon.ico" />

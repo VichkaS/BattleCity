@@ -18,7 +18,8 @@ namespace BattleCity.NET
             m_shellTrack = new CShellTrack(m_x, m_y);
             m_direction = direction;
             m_owner = owner;
-            FBattleScreen.PlaySound("shot");
+
+			CResourceManager.Instance.PlaySound(CResourceManager.SoundEffect.Shot);
         }
         private CShellTrack m_shellTrack;
 
