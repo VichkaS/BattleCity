@@ -188,9 +188,29 @@ namespace BattleCity.NET.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap tank_base {
+            get {
+                object obj = ResourceManager.GetObject("tank_base", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap tank_blue {
             get {
                 object obj = ResourceManager.GetObject("tank_blue", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap tank_full {
+            get {
+                object obj = ResourceManager.GetObject("tank_full", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -211,6 +231,16 @@ namespace BattleCity.NET.Properties {
         internal static System.Drawing.Bitmap tank_red {
             get {
                 object obj = ResourceManager.GetObject("tank_red", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap tank_turret {
+            get {
+                object obj = ResourceManager.GetObject("tank_turret", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

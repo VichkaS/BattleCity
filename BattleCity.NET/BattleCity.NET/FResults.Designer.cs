@@ -37,9 +37,9 @@
 			this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.button1 = new System.Windows.Forms.Button();
-			this.button2 = new System.Windows.Forms.Button();
-			this.button3 = new System.Windows.Forms.Button();
+			this.bSave = new System.Windows.Forms.Button();
+			this.bExit = new System.Windows.Forms.Button();
+			this.bRestart = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// listView1
@@ -97,49 +97,53 @@
 			// 
 			this.columnHeader8.Text = "пройденное расстояние";
 			// 
-			// button1
+			// bSave
 			// 
-			this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.button1.Location = new System.Drawing.Point(12, 338);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(136, 23);
-			this.button1.TabIndex = 1;
-			this.button1.Text = "Сохранить результаты";
-			this.button1.UseVisualStyleBackColor = true;
+			this.bSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.bSave.Location = new System.Drawing.Point(12, 338);
+			this.bSave.Name = "bSave";
+			this.bSave.Size = new System.Drawing.Size(136, 23);
+			this.bSave.TabIndex = 1;
+			this.bSave.Text = "Save results";
+			this.bSave.UseVisualStyleBackColor = true;
 			// 
-			// button2
+			// bExit
 			// 
-			this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.button2.Location = new System.Drawing.Point(470, 338);
-			this.button2.Name = "button2";
-			this.button2.Size = new System.Drawing.Size(75, 23);
-			this.button2.TabIndex = 2;
-			this.button2.Text = "Выход";
-			this.button2.UseVisualStyleBackColor = true;
+			this.bExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.bExit.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			this.bExit.Location = new System.Drawing.Point(470, 338);
+			this.bExit.Name = "bExit";
+			this.bExit.Size = new System.Drawing.Size(75, 23);
+			this.bExit.TabIndex = 2;
+			this.bExit.Text = "Exit";
+			this.bExit.UseVisualStyleBackColor = true;
+			this.bExit.Click += new System.EventHandler(this.bExit_Click);
 			// 
-			// button3
+			// bRestart
 			// 
-			this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.button3.Location = new System.Drawing.Point(389, 338);
-			this.button3.Name = "button3";
-			this.button3.Size = new System.Drawing.Size(75, 23);
-			this.button3.TabIndex = 3;
-			this.button3.Text = "Заново";
-			this.button3.UseVisualStyleBackColor = true;
+			this.bRestart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.bRestart.Location = new System.Drawing.Point(389, 338);
+			this.bRestart.Name = "bRestart";
+			this.bRestart.Size = new System.Drawing.Size(75, 23);
+			this.bRestart.TabIndex = 3;
+			this.bRestart.Text = "New game";
+			this.bRestart.UseVisualStyleBackColor = true;
 			// 
 			// FResults
 			// 
+			this.AcceptButton = this.bSave;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.CancelButton = this.bExit;
 			this.ClientSize = new System.Drawing.Size(557, 373);
-			this.Controls.Add(this.button3);
-			this.Controls.Add(this.button2);
-			this.Controls.Add(this.button1);
+			this.Controls.Add(this.bRestart);
+			this.Controls.Add(this.bExit);
+			this.Controls.Add(this.bSave);
 			this.Controls.Add(this.listView1);
 			this.MinimumSize = new System.Drawing.Size(350, 250);
 			this.Name = "FResults";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-			this.Text = "Результаты матча";
+			this.Text = "Game results";
 			this.ResumeLayout(false);
 
 		}
@@ -155,8 +159,8 @@
 		private System.Windows.Forms.ColumnHeader columnHeader6;
 		private System.Windows.Forms.ColumnHeader columnHeader7;
 		private System.Windows.Forms.ColumnHeader columnHeader8;
-		private System.Windows.Forms.Button button1;
-		private System.Windows.Forms.Button button2;
-		private System.Windows.Forms.Button button3;
+		private System.Windows.Forms.Button bSave;
+		private System.Windows.Forms.Button bExit;
+		private System.Windows.Forms.Button bRestart;
 	}
 }

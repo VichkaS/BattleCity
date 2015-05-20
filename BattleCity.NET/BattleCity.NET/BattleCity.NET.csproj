@@ -159,6 +159,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\turret.png" />
+    <None Include="Resources\tank.png" />
+    <None Include="Resources\base.png" />
     <None Include="Resources\shot.wav" />
     <None Include="Resources\player_death.wav" />
     <None Include="Resources\level_start.wav" />

@@ -30,7 +30,7 @@ namespace BattleCity.NET
             shells = new List<CShell>();
             tanks = new List<CTank>();
             explosions = new List<CExplosion>();
-			CResourceManager.Instance.PlaySound(CResourceManager.ESoundEffect.GameStart);
+			CResourceManager.Instance.PlaySound(CResourceManager.SoundEffect.GameStart);
             m_medChests = new CManagerMedChest(tanks);
             for (int i = 0; i < 4; ++i)
             {
@@ -246,7 +246,7 @@ namespace BattleCity.NET
             if (GameOver())
             {
                 timer1.Enabled = false;
-				CResourceManager.Instance.PlaySound(CResourceManager.ESoundEffect.GameOver);
+				CResourceManager.Instance.PlaySound(CResourceManager.SoundEffect.GameOver);
                 DialogResult result = MessageBox.Show(this, "Do you want to play another game?", GetWinner() + ". Game over", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == DialogResult.Yes)
                 {

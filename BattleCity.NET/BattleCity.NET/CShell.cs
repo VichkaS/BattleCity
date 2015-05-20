@@ -19,7 +19,7 @@ namespace BattleCity.NET
             m_direction = direction;
             m_owner = owner;
 
-			CResourceManager.Instance.PlaySound(CResourceManager.ESoundEffect.Shot);
+			CResourceManager.Instance.PlaySound(CResourceManager.SoundEffect.Shot);
         }
         private CShellTrack m_shellTrack;
 

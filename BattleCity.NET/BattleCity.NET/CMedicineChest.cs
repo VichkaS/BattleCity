@@ -22,7 +22,6 @@ namespace BattleCity.NET
                 {
                     return true;
                 }
-
             }
             return false;
         }
@@ -35,7 +34,6 @@ namespace BattleCity.NET
                 {
                     return true;
                 }
-
             }
             return false;
         }
