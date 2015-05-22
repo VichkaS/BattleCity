@@ -9,7 +9,7 @@ namespace BattleCity.NET
 {
     class CTankInfo
     {
-        struct TankStatistics
+        public struct TankStatistics
         {
             int shotsFired;
             int successfulShots;
@@ -19,16 +19,17 @@ namespace BattleCity.NET
             int lostHealth;
             int distanceTraveled;
         }
+
         private string m_dllPath;
         private Color m_color;
         
         public CTankInfo(string dll, Color tankColor)
         {
-            m_dllPath = dll; 
-            m_color = tankColor; 
+            m_dllPath = dll;
+            m_color = tankColor;
         }
 
-        public string DLLPath 
+        public string DLLPath
         {
             get
             {
@@ -43,6 +44,7 @@ namespace BattleCity.NET
                 return m_color;
             }
         }
+
         public TankStatistics Statistics;
     }
 }

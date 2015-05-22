@@ -12,7 +12,7 @@ namespace BattleCity.NET
 	class CResourceManager
 	{
 		private static CResourceManager instance;
-
+		
 		public static CResourceManager Instance
 		{
 			get
@@ -35,10 +35,19 @@ namespace BattleCity.NET
 		}
 
 		private System.IO.Stream[] m_sounds;
+		private Image m_tankPreview;
+		private Random m_RNG;
+
+		const int PreviewWidth = 32, PreviewHeight = 32;
 
 		private CResourceManager()
 		{
-			/* const */ int number_of_sounds = (int)(Enum.GetValues(typeof(SoundEffect)).Cast<SoundEffect>().Max()) + 1;
+			m_RNG = new Random();
+
+			m_tankPreview = ResizeImage(Properties.Resources.tank_full,
+				PreviewWidth, PreviewHeight);
+
+			int number_of_sounds = (int)(Enum.GetValues(typeof(SoundEffect)).Cast<SoundEffect>().Max()) + 1;
 			m_sounds = new System.IO.Stream[number_of_sounds];
 
 			m_sounds[(int)SoundEffect.Explosion] = Properties.Resources.explode;
@@ -57,18 +66,38 @@ namespace BattleCity.NET
 			player.Play();
 		}
 
-		private bool ThumbnailCallback()
+		public Image GetTankPreview(Color color)
+		{
+			Image preview = (Image)m_tankPreview.Clone();
+			ColorizeImage(preview, color);
+			return preview;
+		}
+
+		public Random RNG
+		{
+			get
+			{
+				return m_RNG;
+			}
+		}
+
+		public Color GenerateRandomColor()
+		{
+			return Color.FromArgb(RNG.Next(256), RNG.Next(256), RNG.Next(256));
+		}
+		
+		private static bool ThumbnailCallback()
 		{
 			return false;
 		}
 
-		public Image ResizeImage(Image source, int width, int height)
+		public static Image ResizeImage(Image source, int width, int height)
 		{
 			Image.GetThumbnailImageAbort myCallback = new Image.GetThumbnailImageAbort(ThumbnailCallback);
 			return source.GetThumbnailImage(width, height, myCallback, IntPtr.Zero);
 		}
 
-		public void ColorizeImage(Image image, Color color)
+		public static void ColorizeImage(Image image, Color color)
 		{
 			ImageAttributes imageAttributes = new ImageAttributes();
 			int width = image.Width;
