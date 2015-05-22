@@ -81,6 +81,7 @@
     <Compile Include="CShell.cs" />
     <Compile Include="CShellTrack.cs" />
     <Compile Include="CTank.cs" />
+    <Compile Include="CTankInfo.cs" />
     <Compile Include="FGameSetup.cs">
       <SubType>Form</SubType>
     </Compile>

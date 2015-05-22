@@ -242,7 +242,6 @@
 			((System.ComponentModel.ISupportInitialize)(this.pbSecond)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pbThird)).EndInit();
 			this.ResumeLayout(false);
-
 		}
 
 		#endregion
