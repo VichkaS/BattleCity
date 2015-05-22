@@ -29,6 +29,7 @@ namespace BattleCity.NET
 			m_tankPreview = CResourceManager.Instance.ResizeImage(Properties.Resources.tank_full, 32, 32);
 			UpdateColorPreview(true);
 
+			/*
             DirectoryInfo dir = new DirectoryInfo(Directory.GetCurrentDirectory());
 
             foreach (FileInfo files in dir.GetFiles("*.dll"))
@@ -42,7 +43,8 @@ namespace BattleCity.NET
             }
 
             dir = null;
-            tanks = new List<CTankInfo>();
+			 */
+			tanks = new List<CTankInfo>();
         }
 
         class CTankInfo
@@ -98,9 +100,9 @@ namespace BattleCity.NET
 			}
 
 			lvTanks.LargeImageList.Images.Add(m_imageKey.ToString(), colorized);
-			ListViewItem i = new ListViewItem(cbDLLs.Text, m_imageKey.ToString());
-			i.Tag = new CTankInfo(cbDLLs.Text, "Green");
-			lvTanks.Items.Add(i);
+			//ListViewItem i = new ListViewItem(cbDLLs.Text, m_imageKey.ToString());
+			//i.Tag = new CTankInfo(cbDLLs.Text, "Green");
+			//lvTanks.Items.Add(i);
 
 			UpdateColorPreview(true);
         }
@@ -161,13 +163,15 @@ namespace BattleCity.NET
 
 		private Bitmap GenerateColorPreview(Color color)
 		{
-			const int previewWidth = 16, previewHeight = 16;
+			const int previewWidth = 24, previewHeight = 24;
 
 			Bitmap bm = new Bitmap(previewWidth, previewHeight);
 
 			using (Graphics gr = Graphics.FromImage(bm))
 			{
-				gr.FillRectangle(new SolidBrush(color), 0, 0, previewWidth, previewHeight);
+				Rectangle rect = new Rectangle(0, 0, previewWidth - 3, previewHeight - 3);
+				gr.FillEllipse(new SolidBrush(color), rect);
+				gr.DrawEllipse(new Pen(Color.Black, 3), rect);
 			}
 
 			return bm;
