@@ -14,37 +14,19 @@ namespace BattleCity.NET
     public partial class FGameSetup : Form
     {
 		private CMatchParameters m_params;
-		private Image m_tankPreview;
 		private Color m_curColor;
 		private int m_imageKey = 0;
 		private List<CTankInfo> tanks;
-		private static Random m_RNG = new Random();
 
         public FGameSetup()
         {
-			Error = false;
 			InitializeComponent();
 
 			m_params = new CMatchParameters();
-			m_tankPreview = CResourceManager.Instance.ResizeImage(Properties.Resources.tank_full, 32, 32);
 			UpdateColorPreview(true);
-
-			/*
-            DirectoryInfo dir = new DirectoryInfo(Directory.GetCurrentDirectory());
-
-            foreach (FileInfo files in dir.GetFiles("*.dll"))
-            {
-                cbDLLs.Items.Add(Path.GetFileName(files.FullName));
-            }
-
-            if (cbDLLs.Items.Count > 0)
-            {
-                cbDLLs.Text = cbDLLs.Items[0].ToString();
-            }
-
-            dir = null;
-			 */
+			UpdateInterface();
 			tanks = new List<CTankInfo>();
+			openFileDialog.InitialDirectory = Directory.GetCurrentDirectory();
         }
 
         class CTankInfo
@@ -57,40 +39,38 @@ namespace BattleCity.NET
             public string GetImage() { return imagePath; }
         }
 
-        void LoadImage(PictureBox img, string str)
-        {
-			Bitmap bm = (Bitmap)Properties.Resources.ResourceManager.GetObject("tank_" + str.ToLower());
+		private void UpdateInterface()
+		{
+			int itemsCount = lvTanks.Items.Count;
 
-			if (bm == null)
+			if (itemsCount < 2)
 			{
-				MessageBox.Show(this, "Cannot find images", "ERROR!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Error = true;
-                return;
+				bNext.Enabled = false;
+				lMatchMode.Text = "Add at least two players to start the game";
+				lMatchMode.ForeColor = Color.Red;
 			}
+			else
+			{
+				bNext.Enabled = true;
+				lMatchMode.ForeColor = Color.Black;
 
-			img.Image = bm;
-        }
+				if (itemsCount >= 2 && itemsCount <= 4)
+				{
+					lMatchMode.Text = "The game will be started in normal mode";
+				}
+				else
+				{
+					lMatchMode.Text = "The game will be started in tournament mode";
+				}
+			}
+		}
 
-        private void bAdd_Click(object sender, EventArgs e)
-        {
-            /*if (tanks.Count > 3)
-            {
-                MessageBox.Show("Too many players (maximum 4)");
-                return;
-            }
-            if(cbDLLs.Items.Contains(cbDLLs.Text))
-            {
-                tanks.Add(new CTankInfo(cbDLLs.Text, cbImage.Text));
-            }
-            if(cbImage.SelectedIndex < cbImage.Items.Count - 1)
-            {
-                cbImage.SelectedIndex++;
-            }
-            UpdateList();*/
+		private void AddParticipant(string dllName)
+		{
 			m_imageKey++;
 
-			Image colorized = (Image)m_tankPreview.Clone();
-			CResourceManager.Instance.ColorizeImage(colorized, m_curColor);
+			Image previewImage = CResourceManager.Instance.GetTankPreview(m_curColor);
+			UpdateColorPreview(true);
 
 			if (lvTanks.LargeImageList == null)
 			{
@@ -99,13 +79,37 @@ namespace BattleCity.NET
 				lvTanks.LargeImageList.ColorDepth = ColorDepth.Depth32Bit;
 			}
 
-			lvTanks.LargeImageList.Images.Add(m_imageKey.ToString(), colorized);
-			//ListViewItem i = new ListViewItem(cbDLLs.Text, m_imageKey.ToString());
-			//i.Tag = new CTankInfo(cbDLLs.Text, "Green");
-			//lvTanks.Items.Add(i);
+			lvTanks.LargeImageList.Images.Add(m_imageKey.ToString(), previewImage);
+			string ShortName = Path.GetFileName(dllName);
+			ListViewItem i = new ListViewItem(ShortName, m_imageKey.ToString());
+			i.Tag = new CTankInfo(dllName, "Green");
+			lvTanks.Items.Add(i);
 
-			UpdateColorPreview(true);
+			UpdateInterface();
+		}
+
+        private void bAdd_Click(object sender, EventArgs e)
+        {
+			if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+			{
+				foreach (string fileName in openFileDialog.FileNames)
+				{
+					AddParticipant(fileName);
+				}
+			}
         }
+
+		private void bRemove_Click(object sender, EventArgs e)
+		{
+			foreach (ListViewItem tank in lvTanks.SelectedItems)
+			{
+				string imageKey = tank.ImageKey;
+				tank.Remove();
+				lvTanks.LargeImageList.Images.RemoveByKey(imageKey);
+			}
+
+			UpdateInterface();
+		}
 
         private void bNext_Click(object sender, EventArgs e)
         {
@@ -138,55 +142,24 @@ namespace BattleCity.NET
             Directory.Delete("tmp", true);
         }
 
-        private bool Error;
-
-        private void Form1_Shown(object sender, EventArgs e)
-        {
-            if (Error)
-            {
-                Application.Exit();
-                return;
-            }
-        }
-
 		private void bSettings_Click(object sender, EventArgs e)
 		{
 			FMatchSettings settingsDlg = new FMatchSettings(m_params);
 			settingsDlg.ShowDialog(this);
 		}
 
-		private void button1_Click(object sender, EventArgs e)
-		{
-			FResults resForm = new FResults();
-			resForm.ShowDialog(this);
-		}
-
 		private Bitmap GenerateColorPreview(Color color)
 		{
-			const int previewWidth = 24, previewHeight = 24;
-
-			Bitmap bm = new Bitmap(previewWidth, previewHeight);
-
-			using (Graphics gr = Graphics.FromImage(bm))
-			{
-				Rectangle rect = new Rectangle(0, 0, previewWidth - 3, previewHeight - 3);
-				gr.FillEllipse(new SolidBrush(color), rect);
-				gr.DrawEllipse(new Pen(Color.Black, 3), rect);
-			}
-
-			return bm;
-		}
-		
-		private Color GenerateRandomColor()
-		{
-			return Color.FromArgb(m_RNG.Next(256), m_RNG.Next(256), m_RNG.Next(256));
+			Bitmap colorPreview = Properties.Resources.tank_icon;
+			CResourceManager.ColorizeImage(colorPreview, color);
+			return colorPreview;
 		}
 
 		private void UpdateColorPreview(bool newColor)
 		{
 			if (newColor)
 			{
-				m_curColor = GenerateRandomColor();
+				m_curColor = CResourceManager.Instance.GenerateRandomColor();
 			}
 
 			bChangeColor.Image = GenerateColorPreview(m_curColor);
@@ -196,18 +169,17 @@ namespace BattleCity.NET
 		{
 			if (colorDialog.ShowDialog(this) == DialogResult.OK)
 			{
-				m_curColor = colorDialog.Color;
-				UpdateColorPreview(false);
-			}
-		}
-
-		private void bRemove_Click(object sender, EventArgs e)
-		{
-			foreach (ListViewItem tank in lvTanks.SelectedItems)
-			{
-				string imageKey = tank.ImageKey;
-				tank.Remove();
-				lvTanks.LargeImageList.Images.RemoveByKey(imageKey);
+				if (lvTanks.SelectedItems.Count == 1)
+				{
+					int imgIndex = lvTanks.LargeImageList.Images.IndexOfKey(lvTanks.SelectedItems[0].ImageKey);
+					lvTanks.LargeImageList.Images[imgIndex] = CResourceManager.Instance.GetTankPreview(colorDialog.Color);
+					lvTanks.Refresh();
+				}
+				else
+				{
+					m_curColor = colorDialog.Color;
+					UpdateColorPreview(false);
+				}
 			}
 		}
     }
