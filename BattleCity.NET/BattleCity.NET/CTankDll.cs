@@ -18,7 +18,7 @@ namespace BattleCity.NET
 			m_dllName = dllName;
 		}
 
-		string ErrorText
+		public string ErrorText
 		{
 			get
 			{
@@ -26,7 +26,7 @@ namespace BattleCity.NET
 			}
 		}
 
-		string DllFileName
+		public string DllFileName
 		{
 			get
 			{
@@ -45,32 +45,20 @@ namespace BattleCity.NET
 		static extern bool FreeLibrary(IntPtr hModule);
 
 		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-		delegate void SetStatus(int x, int y, int angle, int turretAngle, int healthPoints, bool isCollided);
+		public delegate void pSetStatus(int x, int y, int angle, int turretAngle, int healthPoints, bool isCollided);
 		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-		delegate void SetObjectCount(int visibleEnemies, int bonuses, int antibonuses);
+		public delegate void pSetObjectCount(int visibleEnemies, int bonuses, int antibonuses);
 		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-		delegate void SetEnemyProperties(int id, int x, int y, int angle, int turretAngle, int healthPoints);
-
+		public delegate void pSetEnemyProperties(int id, int x, int y, int angle, int turretAngle, int healthPoints);
 		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-		delegate void SetCoordinatesChest(int id, int x, int y);
-
+		public delegate void pSetCoord(int id, int x, int y);
 		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-		delegate int GetDirection();
+		public delegate int pGetInt();
 		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-		delegate int GetRotateDirection();
+		[return: MarshalAs(UnmanagedType.LPStr)]
+		public delegate string pGetAuthorName(StringBuilder sb, uint bufferSize);
 		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-		delegate int GetRotateSpeed();
-		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-		delegate int GetTurretRotateDirection();
-		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-		delegate int GetTurretRotateSpeed();
-		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-		delegate int GetFireDistance();
-		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-		delegate void SetVisibleChests(int count);
-		
-		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-		delegate void Update();
+		public delegate void pUpdate();
 
 		public CTankDll(string dllName)
 		{
@@ -82,31 +70,32 @@ namespace BattleCity.NET
 				throw new DllException("LoadLibrary failed", m_FileName);
 			}
 
-			//setcoords = (SetCoords)GetFunction(m_Handle, typeof(SetCoords), "SetCoords");
-			//setangle = (SetAngle)GetFunction(m_Handle, typeof(SetAngle), "SetAngle");
-			//setturrentAngle = (SetTurretAngle)GetFunction(m_Handle, typeof(SetTurretAngle), "SetTurretAngle");
-			//setcollisionstatus = (SetCollisionStatus)GetFunction(m_Handle, typeof(SetCollisionStatus), "SetCollisionStatus");
-			//setlivepercent = (SetLivePercent)GetFunction(m_Handle, typeof(SetLivePercent), "SetLivePercent");
-			//setvisibleenemycount = (SetVisilbeEnemyCount)GetFunction(m_Handle, typeof(SetVisilbeEnemyCount), "SetVisilbeEnemyCount");
-			setenemyproteries = (SetEnemyProperties)GetFunction(m_Handle, typeof(SetEnemyProperties), "SetEnemyProteries");
-			update = (Update)GetFunction(m_Handle, typeof(Update), "Update");
-			getrotatedirection = (GetRotateDirection)GetFunction(m_Handle, typeof(GetRotateDirection), "GetRotateDirection");
-			getrotatespeed = (GetRotateSpeed)GetFunction(m_Handle, typeof(GetRotateSpeed), "GetRotateSpeed");
-			getdirection = (GetDirection)GetFunction(m_Handle, typeof(GetDirection), "GetDirection");
-			getturretrotatedirection = (GetTurretRotateDirection)GetFunction(m_Handle, typeof(GetTurretRotateDirection), "GetTurretRotateDirection");
-			getturretrotatespeed = (GetTurretRotateSpeed)GetFunction(m_Handle, typeof(GetTurretRotateSpeed), "GetTurretRotateSpeed");
-			getfiredistance = (GetFireDistance)GetFunction(m_Handle, typeof(GetFireDistance), "GetFireDistance");
-			setcoordinateschest = (SetCoordinatesChest)GetFunction(m_Handle, typeof(SetCoordinatesChest), "SetCoordinatesChest");
-			setvisiblechests = (SetVisibleChests)GetFunction(m_Handle, typeof(SetVisibleChests), "SetVisibleChests");
+			SetStatus = (pSetStatus)GetFunction(m_Handle, typeof(pSetStatus), "SetStatus");
+			SetObjectCount = (pSetObjectCount)GetFunction(m_Handle, typeof(pSetObjectCount), "SetObjectCount");
+			SetEnemyProperties = (pSetEnemyProperties)GetFunction(m_Handle, typeof(pSetEnemyProperties), "SetEnemyProperties");
+			SetBonusCoord = (pSetCoord)GetFunction(m_Handle, typeof(pSetCoord), "SetBonusCoord");
+			SetAntibonusCoord = (pSetCoord)GetFunction(m_Handle, typeof(pSetCoord), "SetAntibonusCoord");
+
+			GetDirection = (pGetInt)GetFunction(m_Handle, typeof(pGetInt), "GetDirection");
+			GetRotationSpeed = (pGetInt)GetFunction(m_Handle, typeof(pGetInt), "GetRotationSpeed");
+			GetTurretRotationSpeed = (pGetInt)GetFunction(m_Handle, typeof(pGetInt), "GetTurretRotationSpeed");
+			GetFireDistance = (pGetInt)GetFunction(m_Handle, typeof(pGetInt), "GetFireDistance");
+			pGetAuthorName GetAuthorName = (pGetAuthorName)GetFunction(m_Handle, typeof(pGetAuthorName), "GetAuthorName");
+			
+			Update = (pUpdate)GetFunction(m_Handle, typeof(pUpdate), "Update");
+
+			StringBuilder sb = new StringBuilder(100);
+			GetAuthorName(sb, 100);
+			m_authorName = sb.ToString();
 		}
 
-		private System.Delegate GetFunction(IntPtr dll, Type type, string functionName)
+		private Delegate GetFunction(IntPtr hDll, Type type, string functionName)
 		{
-			IntPtr ptr = GetProcAddress(dll, functionName);
+			IntPtr ptr = GetProcAddress(hDll, functionName);
 
 			if (ptr == IntPtr.Zero)
 			{
-				throw new DllException(String.Format("Function \"{0}\" not fopund in library", functionName), m_FileName);
+				throw new DllException(String.Format("Function \"{0}\" not found in library", functionName), m_FileName);
 			}
 
 			return Marshal.GetDelegateForFunctionPointer(ptr, type);
@@ -128,22 +117,25 @@ namespace BattleCity.NET
 
 		private IntPtr m_Handle;
 		private string m_FileName;
+		private string m_authorName;
 
-		//SetCoords setcoords;
-		//SetAngle setangle;
-		//SetTurretAngle setturrentAngle;
-		//SetCollisionStatus setcollisionstatus;
-		//SetLivePercent setlivepercent;
-		//SetVisilbeEnemyCount setvisibleenemycount;
-		SetEnemyProperties setenemyproteries;
-		Update update;
-		GetRotateDirection getrotatedirection;
-		GetRotateSpeed getrotatespeed;
-		GetDirection getdirection;
-		GetTurretRotateDirection getturretrotatedirection;
-		GetTurretRotateSpeed getturretrotatespeed;
-		GetFireDistance getfiredistance;
-		SetCoordinatesChest setcoordinateschest;
-		SetVisibleChests setvisiblechests;
+		public string AuthorName
+		{
+			get
+			{
+				return m_authorName;
+			}
+		}
+
+		public readonly pSetStatus SetStatus;
+		public readonly pSetObjectCount SetObjectCount;
+		public readonly pSetEnemyProperties SetEnemyProperties;
+		public readonly pSetCoord SetBonusCoord;
+		public readonly pSetCoord SetAntibonusCoord;
+		public readonly pGetInt GetDirection;
+		public readonly pGetInt GetRotationSpeed;
+		public readonly pGetInt GetTurretRotationSpeed;
+		public readonly pGetInt GetFireDistance;
+		public readonly pUpdate Update;
 	}
 }

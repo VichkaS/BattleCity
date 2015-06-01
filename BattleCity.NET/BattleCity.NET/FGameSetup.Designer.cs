@@ -40,6 +40,7 @@
 			this.lMatchMode = new System.Windows.Forms.Label();
 			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+			this.button1 = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// bNext
@@ -131,12 +132,23 @@
 			this.openFileDialog.Multiselect = true;
 			this.openFileDialog.Title = "Add participants to the game";
 			// 
+			// button1
+			// 
+			this.button1.Location = new System.Drawing.Point(381, 158);
+			this.button1.Name = "button1";
+			this.button1.Size = new System.Drawing.Size(32, 23);
+			this.button1.TabIndex = 18;
+			this.button1.Text = "button1";
+			this.button1.UseVisualStyleBackColor = true;
+			this.button1.Click += new System.EventHandler(this.button1_Click);
+			// 
 			// FGameSetup
 			// 
 			this.AcceptButton = this.bNext;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(425, 227);
+			this.Controls.Add(this.button1);
 			this.Controls.Add(this.lMatchMode);
 			this.Controls.Add(this.bRemove);
 			this.Controls.Add(this.bChangeColor);
@@ -166,6 +178,7 @@
 		private System.Windows.Forms.Label lMatchMode;
 		private System.Windows.Forms.ToolTip toolTip;
 		private System.Windows.Forms.OpenFileDialog openFileDialog;
+		private System.Windows.Forms.Button button1;
     }
 }
 

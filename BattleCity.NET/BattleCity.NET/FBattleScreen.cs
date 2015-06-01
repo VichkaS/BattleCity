@@ -24,7 +24,7 @@ namespace BattleCity.NET
 			this.BackgroundImage = (Bitmap)Properties.Resources.ResourceManager.GetObject("fon"); 
 			m_ImageMedicineChest = (Bitmap)Properties.Resources.ResourceManager.GetObject("MedicineChest");
 
-            timer1.Interval = CConstants.refreshTime;
+            tRender.Interval = CConstants.refreshTime;
             this.Width = CConstants.formWidth + 218;
             this.Height = CConstants.formHeight + 47;
             shells = new List<CShell>();
@@ -186,7 +186,7 @@ namespace BattleCity.NET
             {
                 return;
             }
-            timer1.Enabled = false;
+            tRender.Enabled = false;
             DialogResult result = DialogResult.OK;
             if (CConstants.error == 1)
             {
@@ -240,12 +240,15 @@ namespace BattleCity.NET
             return "Player " + Convert.ToString(winnerIndex) + " wins";
         }
 
+		private int m_FPS;
         private void timer1_Tick(object sender, EventArgs e)
         {
+			m_FPS++;
+
             CheckForError();
             if (GameOver())
             {
-                timer1.Enabled = false;
+                tRender.Enabled = false;
 				CResourceManager.Instance.PlaySound(CResourceManager.SoundEffect.GameOver);
                 DialogResult result = MessageBox.Show(this, "Do you want to play another game?", GetWinner() + ". Game over", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == DialogResult.Yes)
@@ -278,11 +281,17 @@ namespace BattleCity.NET
             {
                 tanks[i].Free();
             }
-            if (timer1.Enabled)
+            if (tRender.Enabled)
             {
                 Application.Exit();
             }
         }
+
+		private void tFPS_Tick(object sender, EventArgs e)
+		{
+			lFPS.Text = "FPS: " + m_FPS.ToString();
+			m_FPS = 0;
+		}
 
     }
 }

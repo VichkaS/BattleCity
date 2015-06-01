@@ -16,7 +16,6 @@ namespace BattleCity.NET
 		private CMatchParameters m_params;
 		private Color m_curColor;
 		private int m_imageKey = 0;
-		private List<CTankInfo> tanks;
 
         public FGameSetup()
         {
@@ -25,18 +24,7 @@ namespace BattleCity.NET
 			m_params = new CMatchParameters();
 			UpdateColorPreview(true);
 			UpdateInterface();
-			tanks = new List<CTankInfo>();
 			openFileDialog.InitialDirectory = Directory.GetCurrentDirectory();
-        }
-
-        class CTankInfo
-        {
-            private string dllPath;
-            private string imagePath;
-            public CTankInfo(string dll, string image) { dllPath = dll; imagePath = image; }
-            public void SetImage(string image) { imagePath = image; }
-            public string GetDLL() { return dllPath; }
-            public string GetImage() { return imagePath; }
         }
 
 		private void UpdateInterface()
@@ -67,11 +55,11 @@ namespace BattleCity.NET
 
 		private void AddParticipant(string dllName)
 		{
-			m_imageKey++;
-
-			Image previewImage = CResourceManager.Instance.GetTankPreview(m_curColor);
+			CTankInfo tankInfo = new CTankInfo(dllName, m_curColor);
 			UpdateColorPreview(true);
 
+			Image previewImage = CResourceManager.Instance.GetTankPreview(tankInfo.Color);
+			
 			if (lvTanks.LargeImageList == null)
 			{
 				lvTanks.LargeImageList = new ImageList();
@@ -79,11 +67,12 @@ namespace BattleCity.NET
 				lvTanks.LargeImageList.ColorDepth = ColorDepth.Depth32Bit;
 			}
 
+			m_imageKey++;
 			lvTanks.LargeImageList.Images.Add(m_imageKey.ToString(), previewImage);
-			string ShortName = Path.GetFileName(dllName);
-			ListViewItem i = new ListViewItem(ShortName, m_imageKey.ToString());
-			i.Tag = new CTankInfo(dllName, "Green");
-			lvTanks.Items.Add(i);
+			string ShortName = Path.GetFileName(tankInfo.DLLPath);
+			ListViewItem item = new ListViewItem(ShortName, m_imageKey.ToString());
+			item.Tag = tankInfo;
+			lvTanks.Items.Add(item);
 
 			UpdateInterface();
 		}
@@ -113,30 +102,16 @@ namespace BattleCity.NET
 
         private void bNext_Click(object sender, EventArgs e)
         {
-			tanks.Clear();
-			foreach (ListViewItem tank in lvTanks.Items)
-			{
-				tanks.Add((CTankInfo)tank.Tag);
-			}
-
-            if (tanks.Count < 2)
-            {
-                MessageBox.Show("Not enough players (minimum 2)");
-                return;
-            }
-			if (tanks.Count > 4)
-			{
-				MessageBox.Show("Not implemented yet");
-				return;
-			}
-
-            FBattleScreen frm2 = new FBattleScreen(tanks.Count);
+			FBattleScreen frm2 = new FBattleScreen(lvTanks.Items.Count);
             Directory.CreateDirectory("tmp");
-            for (int i = 0; i < tanks.Count; i++)
+
+			for (int i = 0; i < lvTanks.Items.Count; i++)
             {
-                File.Copy(tanks[i].GetDLL(), "tmp/tempDLL" + Convert.ToString(i) + ".dll", true);
-                frm2.NewTank("tmp/tempDLL" + Convert.ToString(i) + ".dll", tanks[i].GetImage());
+				CTankInfo tankInfo = (CTankInfo)lvTanks.Items[i].Tag;
+				File.Copy(tankInfo.DLLPath, "tmp/tempDLL" + Convert.ToString(i) + ".dll", true);
+				frm2.NewTank("tmp/tempDLL" + Convert.ToString(i) + ".dll", "green");
             }
+
             this.Hide();
             frm2.ShowDialog(this);
             Directory.Delete("tmp", true);
@@ -180,6 +155,20 @@ namespace BattleCity.NET
 					m_curColor = colorDialog.Color;
 					UpdateColorPreview(false);
 				}
+			}
+		}
+
+		private void button1_Click(object sender, EventArgs e)
+		{
+			try
+			{
+				CTankDll td = new CTankDll("D:\\Documents\\Projects\\GitHub\\BattleCity\\Intelligences\\Circle\\Debug\\AIExample.dll");
+				MessageBox.Show(td.AuthorName);
+			}
+			catch (DllException ex)
+			{
+				string message = String.Format("Error while loading \"{0}\":\n{1}", ex.DllFileName, ex.ErrorText);
+				MessageBox.Show(message, "Incorrect DLL", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
     }

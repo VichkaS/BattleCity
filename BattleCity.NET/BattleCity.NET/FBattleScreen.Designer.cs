@@ -66,7 +66,9 @@
 			this.label2 = new System.Windows.Forms.Label();
 			this.pbPlayer1Health = new System.Windows.Forms.ProgressBar();
 			this.label1 = new System.Windows.Forms.Label();
-			this.timer1 = new System.Windows.Forms.Timer(this.components);
+			this.tRender = new System.Windows.Forms.Timer(this.components);
+			this.tFPS = new System.Windows.Forms.Timer(this.components);
+			this.lFPS = new System.Windows.Forms.Label();
 			this.panel1.SuspendLayout();
 			this.gbPlayer4.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pbTank4Image)).BeginInit();
@@ -354,6 +356,7 @@
 			// 
 			// gbPlayer1
 			// 
+			this.gbPlayer1.Controls.Add(this.lFPS);
 			this.gbPlayer1.Controls.Add(this.pbPlayer1Reload);
 			this.gbPlayer1.Controls.Add(this.label8);
 			this.gbPlayer1.Controls.Add(this.pbTank1Image);
@@ -440,11 +443,26 @@
 			this.label1.TabIndex = 0;
 			this.label1.Text = "Health";
 			// 
-			// timer1
+			// tRender
 			// 
-			this.timer1.Enabled = true;
-			this.timer1.Interval = 10;
-			this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+			this.tRender.Enabled = true;
+			this.tRender.Interval = 10;
+			this.tRender.Tick += new System.EventHandler(this.timer1_Tick);
+			// 
+			// tFPS
+			// 
+			this.tFPS.Enabled = true;
+			this.tFPS.Interval = 1000;
+			this.tFPS.Tick += new System.EventHandler(this.tFPS_Tick);
+			// 
+			// lFPS
+			// 
+			this.lFPS.AutoSize = true;
+			this.lFPS.Location = new System.Drawing.Point(83, 84);
+			this.lFPS.Name = "lFPS";
+			this.lFPS.Size = new System.Drawing.Size(13, 13);
+			this.lFPS.TabIndex = 8;
+			this.lFPS.Text = "0";
 			// 
 			// FBattleScreen
 			// 
@@ -500,7 +518,7 @@
         private System.Windows.Forms.Label lPlayer1Hits;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Timer tRender;
         private System.Windows.Forms.PictureBox pbTank4Image;
         private System.Windows.Forms.PictureBox pbTank3Image;
         private System.Windows.Forms.PictureBox pbTank2Image;
@@ -514,5 +532,7 @@
         private System.Windows.Forms.ProgressBar pbPlayer1Reload;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.ProgressBar pbPlayer1Health;
+		private System.Windows.Forms.Timer tFPS;
+		private System.Windows.Forms.Label lFPS;
     }
 }
