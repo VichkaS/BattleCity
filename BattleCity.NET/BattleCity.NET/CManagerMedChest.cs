@@ -16,7 +16,7 @@ namespace BattleCity.NET
         {
             rnd = new Random();
             m_MedicineChests = new List<CMedicineChest>();
-            m_MedicineChests.Add(new CMedicineChest(rnd));
+            //m_MedicineChests.Add(new CMedicineChest(rnd));
             m_Tanks = Tanks;
         }
 

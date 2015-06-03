@@ -23,7 +23,7 @@ namespace BattleCity.NET
 		private short m_deadPlace = 1;
 		private CManagerMedChest m_medChests;
 		private Image m_ImageMedicineChest;
-		private bool m_isRunning;
+		private bool m_isRunning, m_closedNormally;
 		private int m_FPS;
 
 		public FBattleScreen(CMatchParameters parameters, List<CTankInfo> participants)
@@ -67,6 +67,27 @@ namespace BattleCity.NET
 
 		public void NewMatch(List<int> pIndexes)
         {
+			gbPlayer1.Text = m_participants[pIndexes[0]].AuthorName;
+			gbPlayer2.Text = m_participants[pIndexes[1]].AuthorName;
+			if (pIndexes.Count >= 3)
+			{
+				gbPlayer3.Visible = true;
+				gbPlayer3.Text = m_participants[pIndexes[2]].AuthorName;
+			}
+			else
+			{
+				gbPlayer3.Visible = false;
+			}
+			if (pIndexes.Count >= 4)
+			{
+				gbPlayer4.Visible = true;
+				gbPlayer4.Text = m_participants[pIndexes[3]].AuthorName;
+			}
+			else
+			{
+				gbPlayer4.Visible = false;
+			}
+
 			m_tanks.Clear();
 			m_shells.Clear();
 			m_dead.Clear();
@@ -81,6 +102,7 @@ namespace BattleCity.NET
 			}
 
 			m_isRunning = true;
+			m_closedNormally = false;
 			m_RenderThread = new Thread(GameLoop);
 			m_RenderThread.Start();
         }
@@ -286,6 +308,7 @@ namespace BattleCity.NET
             CheckForError();
             if (GameOver())
             {
+				m_closedNormally = true;
 				m_isRunning = false;
 				return;
 				/*
@@ -315,6 +338,7 @@ namespace BattleCity.NET
 
         private void FBattleScreen_FormClosing(object sender, FormClosingEventArgs e)
         {
+			//MessageBox.Show(e.CloseReason.ToString());
 			m_isRunning = false;
 			//this.Close();
             /*if (m_IsRunning)
@@ -341,6 +365,10 @@ namespace BattleCity.NET
 			foreach (var tank in m_tanks)
 			{
 				tank.Dispose();
+			}
+			if (!m_closedNormally)
+			{
+				Application.Exit();
 			}
 		}
 
