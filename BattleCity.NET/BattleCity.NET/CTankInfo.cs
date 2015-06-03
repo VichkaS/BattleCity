@@ -5,10 +5,11 @@ using System.Text;
 using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace BattleCity.NET
 {
-    class CTankInfo
+    public class CTankInfo
     {
         public struct TankStatistics
         {
@@ -21,19 +22,27 @@ namespace BattleCity.NET
             int distanceTraveled;
         }
 
-		private string m_dllPath, m_authorName;
-        private Color m_color;
+		private string m_dllName, m_dllPath, m_authorName;
 
 		public CTankInfo(string dllName, Color tankColor)
         {
-			m_dllPath = dllName;
-            m_color = tankColor;
+			m_dllName = Path.GetFileName(dllName);
+			Color = tankColor;
 
 			CTankDll tankDll = new CTankDll(dllName);
 			m_authorName = tankDll.AuthorName;
 			tankDll.Dispose();
+
+			m_dllPath = Path.GetTempFileName();
+			File.Copy(dllName, m_dllPath, true);
         }
 
+		~CTankInfo()
+		{
+			File.Delete(m_dllPath);
+		}
+
+		// Путь к DLL, скопированной во временный каталог
         public string DLLPath
         {
             get
@@ -41,6 +50,15 @@ namespace BattleCity.NET
                 return m_dllPath;
             }
         }
+
+		// Название файла DLL
+		public string DLLName
+		{
+			get
+			{
+				return m_dllName;
+			}
+		}
 
 		public string AuthorName
 		{
@@ -50,14 +68,7 @@ namespace BattleCity.NET
 			}
 		}
 
-        public Color Color
-        {
-            get
-            {
-                return m_color;
-            }
-        }
-
+		public Color Color;
         public TankStatistics Statistics;
     }
 }

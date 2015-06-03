@@ -114,32 +114,23 @@ namespace BattleCity.NET
 
         private void bNext_Click(object sender, EventArgs e)
         {
-			FBattleScreen frm2 = new FBattleScreen(lvTanks.Items.Count);
-            Directory.CreateDirectory("tmp");
+			FBattleScreen battleScreen = new FBattleScreen(lvTanks.Items.Count);
 
 			for (int i = 0; i < lvTanks.Items.Count; i++)
             {
 				CTankInfo tankInfo = (CTankInfo)lvTanks.Items[i].Tag;
-				File.Copy(tankInfo.DLLPath, "tmp/tempDLL" + Convert.ToString(i) + ".dll", true);
-				frm2.NewTank("tmp/tempDLL" + Convert.ToString(i) + ".dll", "green");
+				battleScreen.NewTank(tankInfo);
             }
 
             this.Hide();
-            frm2.ShowDialog(this);
-            Directory.Delete("tmp", true);
+			battleScreen.ShowDialog(this);
+			this.Close();
         }
 
 		private void bSettings_Click(object sender, EventArgs e)
 		{
 			FMatchSettings settingsDlg = new FMatchSettings(m_params);
 			settingsDlg.ShowDialog(this);
-		}
-
-		private Bitmap GenerateColorPreview(Color color)
-		{
-			Bitmap colorPreview = Properties.Resources.tank_icon;
-			CResourceManager.ColorizeImage(colorPreview, color);
-			return colorPreview;
 		}
 
 		private void UpdateColorPreview(bool newColor)
@@ -149,7 +140,7 @@ namespace BattleCity.NET
 				m_curColor = CResourceManager.Instance.GenerateRandomColor();
 			}
 
-			bChangeColor.Image = GenerateColorPreview(m_curColor);
+			bChangeColor.Image = CResourceManager.GetColorPreview(m_curColor);
 		}
 		
 		private void bChangeColor_Click(object sender, EventArgs e)
@@ -158,6 +149,9 @@ namespace BattleCity.NET
 			{
 				if (lvTanks.SelectedItems.Count == 1)
 				{
+					CTankInfo tankInfo = (CTankInfo)lvTanks.SelectedItems[0].Tag;
+					tankInfo.Color = colorDialog.Color;
+
 					int imgIndex = lvTanks.LargeImageList.Images.IndexOfKey(lvTanks.SelectedItems[0].ImageKey);
 					lvTanks.LargeImageList.Images[imgIndex] = CResourceManager.Instance.GetTankPreview(colorDialog.Color);
 					lvTanks.Refresh();
@@ -168,19 +162,6 @@ namespace BattleCity.NET
 					UpdateColorPreview(false);
 				}
 			}
-		}
-
-		private void button1_Click(object sender, EventArgs e)
-		{
-			var p = new List<string>();
-
-			for (int i = 1; i <= 10; i++)
-			{
-				p.Add("Test_" + i.ToString());
-			}
-
-			CTournament t = new CTournament(m_params, p);
-			t.HoldTournament();
 		}
     }
 }

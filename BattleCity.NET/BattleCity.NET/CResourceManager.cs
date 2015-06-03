@@ -35,7 +35,7 @@ namespace BattleCity.NET
 		}
 
 		private System.IO.Stream[] m_sounds;
-		private Image m_tankPreview;
+		private Bitmap m_tankPreview;
 		private Random m_RNG;
 
 		const int PreviewWidth = 32, PreviewHeight = 32;
@@ -44,7 +44,7 @@ namespace BattleCity.NET
 		{
 			m_RNG = new Random();
 
-			m_tankPreview = ResizeImage(Properties.Resources.tank_full,
+			m_tankPreview = ResizeBitmap(Properties.Resources.tank_full,
 				PreviewWidth, PreviewHeight);
 
 			int number_of_sounds = (int)(Enum.GetValues(typeof(SoundEffect)).Cast<SoundEffect>().Max()) + 1;
@@ -73,6 +73,34 @@ namespace BattleCity.NET
 			return preview;
 		}
 
+		public static Bitmap GetColorPreview(Color color)
+		{
+			Bitmap colorPreview = Properties.Resources.tank_icon;
+			ColorizeImage(colorPreview, color);
+			return colorPreview;
+		}
+
+		public static Bitmap GetTankBase(Color color)
+		{
+			Bitmap result = ResizeBitmap(Properties.Resources.tank_base, CConstants.tankSize, CConstants.tankSize);
+			ColorizeImage(result, color);
+			return result;
+		}
+
+		public static Bitmap GetTankTurret(Color color)
+		{
+			Bitmap result = ResizeBitmap(Properties.Resources.tank_turret, CConstants.turretSize, CConstants.turretSize);
+			ColorizeImage(result, color);
+			return result;
+		}
+
+		public static Bitmap GetTank(Color color)
+		{
+			Bitmap result = ResizeBitmap(Properties.Resources.tank_full, 50, 50);
+			ColorizeImage(result, color);
+			return result;
+		}
+
 		public Random RNG
 		{
 			get
@@ -85,16 +113,10 @@ namespace BattleCity.NET
 		{
 			return Color.FromArgb(RNG.Next(256), RNG.Next(256), RNG.Next(256));
 		}
-		
-		private static bool ThumbnailCallback()
-		{
-			return false;
-		}
 
-		public static Image ResizeImage(Image source, int width, int height)
+		public static Bitmap ResizeBitmap(Bitmap source, int width, int height)
 		{
-			Image.GetThumbnailImageAbort myCallback = new Image.GetThumbnailImageAbort(ThumbnailCallback);
-			return source.GetThumbnailImage(width, height, myCallback, IntPtr.Zero);
+			return (Bitmap)source.GetThumbnailImage(width, height, null, IntPtr.Zero);
 		}
 
 		public static void ColorizeImage(Image image, Color color)

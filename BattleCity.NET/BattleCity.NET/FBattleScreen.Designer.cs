@@ -58,6 +58,7 @@
 			this.pbPlayer2Health = new System.Windows.Forms.ProgressBar();
 			this.label6 = new System.Windows.Forms.Label();
 			this.gbPlayer1 = new System.Windows.Forms.GroupBox();
+			this.lFPS = new System.Windows.Forms.Label();
 			this.pbPlayer1Reload = new System.Windows.Forms.ProgressBar();
 			this.label8 = new System.Windows.Forms.Label();
 			this.pbTank1Image = new System.Windows.Forms.PictureBox();
@@ -66,9 +67,8 @@
 			this.label2 = new System.Windows.Forms.Label();
 			this.pbPlayer1Health = new System.Windows.Forms.ProgressBar();
 			this.label1 = new System.Windows.Forms.Label();
-			this.tRender = new System.Windows.Forms.Timer(this.components);
 			this.tFPS = new System.Windows.Forms.Timer(this.components);
-			this.lFPS = new System.Windows.Forms.Label();
+			this.tUpdateInterface = new System.Windows.Forms.Timer(this.components);
 			this.panel1.SuspendLayout();
 			this.gbPlayer4.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pbTank4Image)).BeginInit();
@@ -373,6 +373,15 @@
 			this.gbPlayer1.Text = "Player1";
 			this.gbPlayer1.Visible = false;
 			// 
+			// lFPS
+			// 
+			this.lFPS.AutoSize = true;
+			this.lFPS.Location = new System.Drawing.Point(83, 84);
+			this.lFPS.Name = "lFPS";
+			this.lFPS.Size = new System.Drawing.Size(13, 13);
+			this.lFPS.TabIndex = 8;
+			this.lFPS.Text = "0";
+			// 
 			// pbPlayer1Reload
 			// 
 			this.pbPlayer1Reload.ForeColor = System.Drawing.SystemColors.MenuHighlight;
@@ -443,26 +452,16 @@
 			this.label1.TabIndex = 0;
 			this.label1.Text = "Health";
 			// 
-			// tRender
-			// 
-			this.tRender.Enabled = true;
-			this.tRender.Interval = 10;
-			this.tRender.Tick += new System.EventHandler(this.timer1_Tick);
-			// 
 			// tFPS
 			// 
 			this.tFPS.Enabled = true;
 			this.tFPS.Interval = 1000;
 			this.tFPS.Tick += new System.EventHandler(this.tFPS_Tick);
 			// 
-			// lFPS
+			// tUpdateInterface
 			// 
-			this.lFPS.AutoSize = true;
-			this.lFPS.Location = new System.Drawing.Point(83, 84);
-			this.lFPS.Name = "lFPS";
-			this.lFPS.Size = new System.Drawing.Size(13, 13);
-			this.lFPS.TabIndex = 8;
-			this.lFPS.Text = "0";
+			this.tUpdateInterface.Enabled = true;
+			this.tUpdateInterface.Tick += new System.EventHandler(this.tUpdateInterface_Tick);
 			// 
 			// FBattleScreen
 			// 
@@ -475,6 +474,8 @@
 			this.Name = "FBattleScreen";
 			this.Text = "BattleCity.NET";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FBattleScreen_FormClosing);
+			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FBattleScreen_FormClosed);
+			this.Shown += new System.EventHandler(this.FBattleScreen_Shown);
 			this.panel1.ResumeLayout(false);
 			this.gbPlayer4.ResumeLayout(false);
 			this.gbPlayer4.PerformLayout();
@@ -517,8 +518,7 @@
         private System.Windows.Forms.Label lPlayer1Condition;
         private System.Windows.Forms.Label lPlayer1Hits;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Timer tRender;
+		private System.Windows.Forms.Label label1;
         private System.Windows.Forms.PictureBox pbTank4Image;
         private System.Windows.Forms.PictureBox pbTank3Image;
         private System.Windows.Forms.PictureBox pbTank2Image;
@@ -534,5 +534,6 @@
         private System.Windows.Forms.ProgressBar pbPlayer1Health;
 		private System.Windows.Forms.Timer tFPS;
 		private System.Windows.Forms.Label lFPS;
+		private System.Windows.Forms.Timer tUpdateInterface;
     }
 }

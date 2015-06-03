@@ -12,25 +12,15 @@ namespace BattleCity.NET
 {
     class CTank : IDisposable
     {
-        public CTank(string dll, string image, List<CTank> tanks)
+        public CTank(CTankInfo tankInfo, List<CTank> tanks)
         {
-			m_dll = new CTankDll(dll);
+			m_dll = new CTankDll(tankInfo.DLLPath);
 
-			image = image.ToLower();
-			m_base = (Bitmap)Properties.Resources.ResourceManager.GetObject("base_" + image);
-			m_turret = (Bitmap)Properties.Resources.ResourceManager.GetObject("turret_" + image);
-			m_tank = (Bitmap)Properties.Resources.ResourceManager.GetObject("tank_" + image);
-
-			if (m_base == null || m_turret == null || m_tank == null)
-			{
-				CConstants.error = 1;
-				return;
-			}
-
-            m_base = m_base.GetThumbnailImage(CConstants.tankSize, CConstants.tankSize, null, IntPtr.Zero);
-            m_turret = m_turret.GetThumbnailImage(CConstants.turretSize, CConstants.turretSize, null, IntPtr.Zero);
-            m_tank = m_tank.GetThumbnailImage(50, 50, null, IntPtr.Zero);
-            Random rnd = new Random();
+			m_base = CResourceManager.GetTankBase(tankInfo.Color);
+			m_turret = CResourceManager.GetTankTurret(tankInfo.Color);
+			m_tank = CResourceManager.GetTank(tankInfo.Color);
+			
+			Random rnd = new Random();
             int triescount = 0;
             do
             {
