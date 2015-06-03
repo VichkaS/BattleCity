@@ -21,3 +21,4 @@ C:\Users\Вичка\Documents\GitHub\BattleCity\BattleCity.NET\BattleCity.NET\ob
 C:\Users\Вичка\Documents\GitHub\BattleCity\BattleCity.NET\BattleCity.NET\obj\Debug\BattleCity.NET.csproj.GenerateResource.Cache
 C:\Users\Вичка\Documents\GitHub\BattleCity\BattleCity.NET\BattleCity.NET\obj\Debug\BattleCity.NET.exe
 C:\Users\Вичка\Documents\GitHub\BattleCity\BattleCity.NET\BattleCity.NET\obj\Debug\BattleCity.NET.pdb
+C:\Users\Вичка\Documents\GitHub\BattleCity\BattleCity.NET\BattleCity.NET\obj\Debug\BattleCity.NET.csprojResolveAssemblyReference.cache

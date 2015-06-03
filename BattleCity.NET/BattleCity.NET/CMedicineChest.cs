@@ -45,8 +45,8 @@ namespace BattleCity.NET
             double tempY = 0;
             do
             {
-                tempX = rnd.Next(20, 590);
-                tempY = rnd.Next(20, 440);
+                tempX = rnd.Next(20, CConstants.formWidth - 20);
+                tempY = rnd.Next(20, CConstants.formHeight - 20);
             } while (CoordinatesIsMatchTanks(Tanks, tempX, tempY));
             m_x = tempX;
             m_y = tempY;

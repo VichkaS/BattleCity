@@ -160,6 +160,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\anti.png" />
+    <None Include="Resources\anti.jpg" />
     <None Include="Resources\bonus.png" />
     <None Include="Resources\tank_icon.png" />
     <None Include="Resources\turret.png" />

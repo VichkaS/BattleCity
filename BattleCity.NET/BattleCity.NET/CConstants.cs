@@ -34,8 +34,8 @@ namespace BattleCity.NET
 
         public const int tankSize = 64;
         public const int turretSize = 80;
-        public const int formWidth = 640;
-        public const int formHeight = 480;
+        static public int formWidth = 640;
+        static public int formHeight = 480;
         public const int defaultTankSpeed = refreshTime / 10;
         static public int tankSpeed = defaultTankSpeed;
         public const double baseRotationRate = 0.01 * refreshTime;

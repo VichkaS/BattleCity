@@ -67,7 +67,7 @@ namespace BattleCity.NET
 			reload_time = new CLimitedValue(1, 60, 8);
 			health_points = new CLimitedValue(1, 200, 100);
 			speed = new CLimitedValue(20, 200, 100);
-			screen_size = EScreenSize.Standard;
+			screen_size = EScreenSize.Small;
 		}
 
 		// Частота появления аптечек (штук в минуту)

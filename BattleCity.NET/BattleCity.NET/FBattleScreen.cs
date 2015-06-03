@@ -68,6 +68,22 @@ namespace BattleCity.NET
             {
                 tAntibonus.Interval = 60 / parameters.slowness_spawn_rate * 1000;
             }
+
+            switch (parameters.screen_size)
+            {
+                case CMatchParameters.EScreenSize.Small:
+                    CConstants.formWidth = 640;
+                    CConstants.formHeight = 480;
+                    break;
+                case CMatchParameters.EScreenSize.Standard:
+                    CConstants.formWidth = 800;
+                    CConstants.formHeight = 600;
+                    break;
+                case CMatchParameters.EScreenSize.Large:
+                    CConstants.formWidth = 1024;
+                    CConstants.formHeight = 768;
+                    break;
+            }
            
         }
 
