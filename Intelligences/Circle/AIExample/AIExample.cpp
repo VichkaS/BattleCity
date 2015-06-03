@@ -92,7 +92,7 @@ AIEXAMPLE_API int GetFireDistance()
 
 AIEXAMPLE_API void GetAuthorName(char *buffer, size_t buffer_size)
 {
-	strcpy_s(buffer, buffer_size, "Пупкин Иван Иванович");
+	strcpy_s(buffer, buffer_size, "Круговой Олег Викторович");
 }
 
 AIEXAMPLE_API void Update()
