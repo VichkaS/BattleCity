@@ -171,13 +171,47 @@ namespace BattleCity.NET
                 }
                 m_dll.Update();
 
-				m_baseDirection += Convert.ToInt32(m_dll.GetRotationSpeed() * CConstants.baseRotationRate + 360) % 360;
-				int dir = m_dll.GetDirection();
+                int rotationSpeed = m_dll.GetRotationSpeed();
+                if (rotationSpeed > 10)
+                {
+                    rotationSpeed = 10;
+                }
+                else if (rotationSpeed < -10)
+                {
+                    rotationSpeed = -10;
+                }
+                m_baseDirection += Convert.ToInt32(rotationSpeed * CConstants.baseRotationRate + 360) % 360;
+				
+                int dir = m_dll.GetDirection();
+                if (dir > 1)
+                {
+                    dir = 1;
+                }
+                else if (dir < -1)
+                {
+                    dir = -1;
+                }
 				TryToMoveForward(dir * CConstants.tankSpeed * Math.Sin(m_baseDirection * Math.PI / 180),
 					dir * CConstants.tankSpeed * Math.Cos(m_baseDirection * Math.PI / 180), tanks);
                 FixCollisions(tanks);
-				m_turretDirection += Convert.ToInt32(m_dll.GetTurretRotationSpeed() * CConstants.turretRotationRate + 360) % 360;
-				distance = m_dll.GetFireDistance();
+
+                int turretRotationSpeed = m_dll.GetTurretRotationSpeed();
+                if (turretRotationSpeed > 20)
+                {
+                    turretRotationSpeed = 20;
+                }
+                else if (turretRotationSpeed < -20)
+                {
+                    turretRotationSpeed = -20;
+                }
+                m_turretDirection += Convert.ToInt32(turretRotationSpeed * CConstants.turretRotationRate + 360) % 360;
+				
+                distance = m_dll.GetFireDistance();
+                if (distance < -1)
+                {
+                    distance = -1;
+                }
+
             }
             catch
             {

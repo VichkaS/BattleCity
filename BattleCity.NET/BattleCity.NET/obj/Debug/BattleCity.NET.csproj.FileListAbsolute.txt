@@ -10,3 +10,15 @@ D:\Documents\Projects\GitHub\BattleCity\BattleCity.NET\BattleCity.NET\obj\Debug\
 D:\Documents\Projects\GitHub\BattleCity\BattleCity.NET\BattleCity.NET\obj\Debug\BattleCity.NET.FGameSetup.resources
 D:\Documents\Projects\GitHub\BattleCity\BattleCity.NET\BattleCity.NET\obj\Debug\BattleCity.NET.FMatchSettings.resources
 D:\Documents\Projects\GitHub\BattleCity\BattleCity.NET\BattleCity.NET\obj\Debug\BattleCity.NET.FResults.resources
+C:\Users\Вичка\Documents\GitHub\BattleCity\BattleCity.NET\BattleCity.NET\bin\Debug\BattleCity.NET.exe.config
+C:\Users\Вичка\Documents\GitHub\BattleCity\BattleCity.NET\BattleCity.NET\bin\Debug\BattleCity.NET.exe
+C:\Users\Вичка\Documents\GitHub\BattleCity\BattleCity.NET\BattleCity.NET\bin\Debug\BattleCity.NET.pdb
+C:\Users\Вичка\Documents\GitHub\BattleCity\BattleCity.NET\BattleCity.NET\obj\Debug\BattleCity.NET.csprojResolveAssemblyReference.cache
+C:\Users\Вичка\Documents\GitHub\BattleCity\BattleCity.NET\BattleCity.NET\obj\Debug\BattleCity.NET.FGameSetup.resources
+C:\Users\Вичка\Documents\GitHub\BattleCity\BattleCity.NET\BattleCity.NET\obj\Debug\BattleCity.NET.FBattleScreen.resources
+C:\Users\Вичка\Documents\GitHub\BattleCity\BattleCity.NET\BattleCity.NET\obj\Debug\BattleCity.NET.FResults.resources
+C:\Users\Вичка\Documents\GitHub\BattleCity\BattleCity.NET\BattleCity.NET\obj\Debug\BattleCity.NET.Properties.Resources.resources
+C:\Users\Вичка\Documents\GitHub\BattleCity\BattleCity.NET\BattleCity.NET\obj\Debug\BattleCity.NET.FMatchSettings.resources
+C:\Users\Вичка\Documents\GitHub\BattleCity\BattleCity.NET\BattleCity.NET\obj\Debug\BattleCity.NET.csproj.GenerateResource.Cache
+C:\Users\Вичка\Documents\GitHub\BattleCity\BattleCity.NET\BattleCity.NET\obj\Debug\BattleCity.NET.exe
+C:\Users\Вичка\Documents\GitHub\BattleCity\BattleCity.NET\BattleCity.NET\obj\Debug\BattleCity.NET.pdb
