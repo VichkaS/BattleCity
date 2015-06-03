@@ -472,10 +472,10 @@
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.MaximizeBox = false;
 			this.Name = "FBattleScreen";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "BattleCity.NET";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FBattleScreen_FormClosing);
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FBattleScreen_FormClosed);
-			this.Shown += new System.EventHandler(this.FBattleScreen_Shown);
 			this.panel1.ResumeLayout(false);
 			this.gbPlayer4.ResumeLayout(false);
 			this.gbPlayer4.PerformLayout();

@@ -9,13 +9,14 @@ namespace BattleCity.NET
     class CTournament
     {
         private CMatchParameters m_parameters;
-        //private List<CTankInfo> m_participants;
-		private List<string> m_participants;
+        private List<CTankInfo> m_participants;
+		private FBattleScreen m_battleForm;
 
-		public CTournament(CMatchParameters parameters, List<string> participants)
+		public CTournament(CMatchParameters parameters, List<CTankInfo> participants)
         {
             m_parameters = parameters;
             m_participants = participants;
+			m_battleForm = new FBattleScreen(parameters, participants);
         }
 
         private List<int> FormGroups(int count)
@@ -160,7 +161,7 @@ namespace BattleCity.NET
 			return winners;
         }
 
-		public void HoldTournament()
+		public bool HoldTournament()
 		{
 			List<int> allIndexes = new List<int>(m_participants.Count);
 			
@@ -169,10 +170,13 @@ namespace BattleCity.NET
 				allIndexes.Add(i);
 			}
 
+			CResourceManager.Instance.PlaySound(CResourceManager.SoundEffect.GameStart);
 			var winners = OlympicTournament(allIndexes);
+			CResourceManager.Instance.PlaySound(CResourceManager.SoundEffect.GameOver);
 
 			FResults resultsForm = new FResults(m_participants, winners);
-			resultsForm.Show();
+			resultsForm.ShowDialog();
+			return resultsForm.ContinueGame();
 		}
 		
 		// Проводит матч
@@ -182,7 +186,9 @@ namespace BattleCity.NET
 		// [3] - последнее место, был убит первым
 		private List<int> StartMatch(List<int> participants)
         {
-			return participants;
+			m_battleForm.NewMatch(participants);
+			m_battleForm.ShowDialog();
+			return m_battleForm.GetWinners();
         }
     }
 }

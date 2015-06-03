@@ -36,6 +36,8 @@ namespace BattleCity.NET
             m_reload = CConstants.reloadTime;
             m_destroyed = false;
         }
+
+		public int Index;
         
         private bool PlacementIsFree(double x, double y, List<CTank> tanks)
         {

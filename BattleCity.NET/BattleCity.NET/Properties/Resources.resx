@@ -124,7 +124,7 @@
   <data name="explosion" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\explosion.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="fon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="background" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\fon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="game_over" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -132,9 +132,6 @@
   </data>
   <data name="level_start" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\level_start.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="MedicineChest" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MedicineChest.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="player_death" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\player_death.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -159,5 +156,8 @@
   </data>
   <data name="tank_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\tank_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bonus" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bonus.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

@@ -28,7 +28,10 @@ namespace BattleCity.NET
             shell = shell.GetThumbnailImage(CConstants.shellSize, CConstants.shellSize, null, IntPtr.Zero);
             wrecked = wrecked.GetThumbnailImage(CConstants.tankSize, CConstants.tankSize, null, IntPtr.Zero);
         }
-        public const int refreshTime = 20;
+
+		// 30 FPS
+		public const int refreshTime = 1000 / 30;
+
         public const int tankSize = 64;
         public const int turretSize = 80;
         public const int formWidth = 640;

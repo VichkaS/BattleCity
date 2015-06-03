@@ -39,7 +39,7 @@ namespace BattleCity.NET
                 {
                     if (m_MedicineChests[i].IsVisible() && !m_MedicineChests[i].CheckCollision(Tanks[k].GetX(), Tanks[k].GetY()))
                     {
-                        m_MedicineChests[i].Draw(e, ref imageMedChest);
+                        m_MedicineChests[i].Draw(e, imageMedChest);
                     }
                     else if (m_MedicineChests[i].IsVisible() && m_MedicineChests[i].CheckCollision(Tanks[k].GetX(), Tanks[k].GetY()))
                     {
