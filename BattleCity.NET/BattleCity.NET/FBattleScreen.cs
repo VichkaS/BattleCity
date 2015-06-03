@@ -277,10 +277,6 @@ namespace BattleCity.NET
 
         private void FBattleScreen_FormClosing(object sender, FormClosingEventArgs e)
         {
-            for (int i = 0; i < tanks.Count; i++)
-            {
-                tanks[i].Free();
-            }
             if (tRender.Enabled)
             {
                 Application.Exit();

@@ -1,12 +1,10 @@
-﻿
+﻿#pragma once
+
 #ifdef AIEXAMPLE_EXPORTS
 #define AIEXAMPLE_API __declspec(dllexport)
 #else
 #define AIEXAMPLE_API __declspec(dllimport)
 #endif
-
-
-
 
 struct CTankActions
 {
@@ -34,6 +32,5 @@ extern "C"
 	AIEXAMPLE_API void Update();
 }
 
-int CompareAngles(int a, int b);///сравниваем углы
-
-
+//сравниваем углы
+int CompareAngles(int a, int b);

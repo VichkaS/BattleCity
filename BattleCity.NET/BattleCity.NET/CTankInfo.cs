@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Drawing;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace BattleCity.NET
 {
@@ -20,13 +21,17 @@ namespace BattleCity.NET
             int distanceTraveled;
         }
 
-        private string m_dllPath;
+		private string m_dllPath, m_authorName;
         private Color m_color;
-        
-        public CTankInfo(string dll, Color tankColor)
+
+		public CTankInfo(string dllName, Color tankColor)
         {
-            m_dllPath = dll;
+			m_dllPath = dllName;
             m_color = tankColor;
+
+			CTankDll tankDll = new CTankDll(dllName);
+			m_authorName = tankDll.AuthorName;
+			tankDll.Dispose();
         }
 
         public string DLLPath
@@ -36,6 +41,14 @@ namespace BattleCity.NET
                 return m_dllPath;
             }
         }
+
+		public string AuthorName
+		{
+			get
+			{
+				return m_authorName;
+			}
+		}
 
         public Color Color
         {

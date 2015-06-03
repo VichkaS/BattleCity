@@ -55,7 +55,20 @@ namespace BattleCity.NET
 
 		private void AddParticipant(string dllName)
 		{
-			CTankInfo tankInfo = new CTankInfo(dllName, m_curColor);
+			CTankInfo tankInfo;
+
+			try
+			{
+				tankInfo = new CTankInfo(dllName, m_curColor);
+			}
+			catch (DllException ex)
+			{
+				string message = String.Format("Error while loading \"{0}\":\n{1}",
+					Path.GetFileName(ex.DllFileName), ex.ErrorText);
+				MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
+			}
+
 			UpdateColorPreview(true);
 
 			Image previewImage = CResourceManager.Instance.GetTankPreview(tankInfo.Color);
@@ -69,8 +82,7 @@ namespace BattleCity.NET
 
 			m_imageKey++;
 			lvTanks.LargeImageList.Images.Add(m_imageKey.ToString(), previewImage);
-			string ShortName = Path.GetFileName(tankInfo.DLLPath);
-			ListViewItem item = new ListViewItem(ShortName, m_imageKey.ToString());
+			ListViewItem item = new ListViewItem(tankInfo.AuthorName, m_imageKey.ToString());
 			item.Tag = tankInfo;
 			lvTanks.Items.Add(item);
 
@@ -160,16 +172,15 @@ namespace BattleCity.NET
 
 		private void button1_Click(object sender, EventArgs e)
 		{
-			try
+			var p = new List<string>();
+
+			for (int i = 1; i <= 10; i++)
 			{
-				CTankDll td = new CTankDll("D:\\Documents\\Projects\\GitHub\\BattleCity\\Intelligences\\Circle\\Debug\\AIExample.dll");
-				MessageBox.Show(td.AuthorName);
+				p.Add("Test_" + i.ToString());
 			}
-			catch (DllException ex)
-			{
-				string message = String.Format("Error while loading \"{0}\":\n{1}", ex.DllFileName, ex.ErrorText);
-				MessageBox.Show(message, "Incorrect DLL", MessageBoxButtons.OK, MessageBoxIcon.Error);
-			}
+
+			CTournament t = new CTournament(m_params, p);
+			t.HoldTournament();
 		}
     }
 }
