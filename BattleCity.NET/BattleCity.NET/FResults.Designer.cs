@@ -77,22 +77,22 @@
 			// chAuthor
 			// 
 			this.chAuthor.Text = "Author";
-			this.chAuthor.Width = 100;
+			this.chAuthor.Width = 112;
 			// 
 			// chShots
 			// 
 			this.chShots.Text = "Shots fired";
-			this.chShots.Width = 65;
+			this.chShots.Width = 63;
 			// 
 			// chHitAcc
 			// 
 			this.chHitAcc.Text = "Hit accuracy";
-			this.chHitAcc.Width = 75;
+			this.chHitAcc.Width = 72;
 			// 
 			// chDestroyed
 			// 
 			this.chDestroyed.Text = "Tanks destroyed";
-			this.chDestroyed.Width = 95;
+			this.chDestroyed.Width = 94;
 			// 
 			// chBonuses
 			// 
@@ -102,12 +102,12 @@
 			// chAntibonuses
 			// 
 			this.chAntibonuses.Text = "Antibonuses collected";
-			this.chAntibonuses.Width = 120;
+			this.chAntibonuses.Width = 116;
 			// 
 			// chHPLost
 			// 
 			this.chHPLost.Text = "Health points lost";
-			this.chHPLost.Width = 95;
+			this.chHPLost.Width = 93;
 			// 
 			// chDistance
 			// 

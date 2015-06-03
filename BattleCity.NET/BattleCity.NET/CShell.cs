@@ -10,6 +10,8 @@ namespace BattleCity.NET
 {
     class CShell
     {
+		private bool m_hitRegistred = false;
+
         public CShell(int x, int y, int direction, int range, CTank owner)
         {
             m_x = x + Convert.ToInt64(32 * Math.Sin(direction * Math.PI / 180));
@@ -83,7 +85,16 @@ namespace BattleCity.NET
         }
         public double GetX() { return m_x; }
         public double GetY() { return m_y; }
-        public void SuccessfulyHits() { m_owner.SuccessfulHit(); }
+        public void SuccessfulyHits()
+		{
+			if (!m_hitRegistred)
+			{
+				m_hitRegistred = true;
+				m_owner.SuccessfulHit();
+			}
+		}
+		public CTank GetOwner() { return m_owner; }
+
         private bool m_isVisible = true;
         private double m_x;
         private double m_y;

@@ -44,14 +44,16 @@ namespace BattleCity.NET
 				ListViewItem lvItem = new ListViewItem(participant.AuthorName);
 
 				lvItem.SubItems.Add(participant.Statistics.shotsFired.ToString());
+
 				if (participant.Statistics.shotsFired == 0)
 				{
 					lvItem.SubItems.Add("0%");
 				}
 				else
 				{
-					lvItem.SubItems.Add(Convert.ToInt32(((float)participant.Statistics.successfulShots / participant.Statistics.shotsFired) * 100f).ToString() + "%");
+					lvItem.SubItems.Add(Convert.ToInt32(participant.Statistics.successfulShots / participant.Statistics.shotsFired * 100f).ToString() + "%");
 				}
+
 				lvItem.SubItems.Add(participant.Statistics.destroyedTanks.ToString());
 				lvItem.SubItems.Add(participant.Statistics.collectedMedicineChest.ToString());
 				lvItem.SubItems.Add(participant.Statistics.collectedAntibonus.ToString());

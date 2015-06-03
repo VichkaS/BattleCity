@@ -47,7 +47,7 @@ namespace BattleCity.NET
                         }
                         else
                         {
-                            Tanks[k].SetHealth(10);
+							Tanks[k].Heal();
                         }
 
                         if (!tmp.Contains(i))

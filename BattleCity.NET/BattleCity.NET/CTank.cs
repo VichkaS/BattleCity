@@ -14,11 +14,12 @@ namespace BattleCity.NET
     {
         public CTank(CTankInfo tankInfo, List<CTank> tanks)
         {
-			m_dll = new CTankDll(tankInfo.DLLPath);
+			m_info = tankInfo;
+			m_dll = new CTankDll(m_info.DLLPath);
 
-			m_base = CResourceManager.GetTankBase(tankInfo.Color);
-			m_turret = CResourceManager.GetTankTurret(tankInfo.Color);
-			m_tank = CResourceManager.GetTank(tankInfo.Color);
+			m_base = CResourceManager.GetTankBase(m_info.Color);
+			m_turret = CResourceManager.GetTankTurret(m_info.Color);
+			m_tank = CResourceManager.GetTank(m_info.Color);
 			
 			Random rnd = new Random();
             int triescount = 0;
@@ -29,7 +30,6 @@ namespace BattleCity.NET
                 triescount++;
             } while (!PlacementIsFree(m_x, m_y, tanks) && triescount < 500);
             m_health = CConstants.tankHealth;
-            m_hits = 0;
             m_baseDirection = rnd.Next(360);
             m_turretDirection = m_baseDirection;
             m_deadPlace = -1;
@@ -37,6 +37,7 @@ namespace BattleCity.NET
             m_destroyed = false;
         }
 
+		private CTankInfo m_info;
 		public int Index;
         private int m_slowSince;
         
@@ -139,8 +140,15 @@ namespace BattleCity.NET
             }
         }
 
+		private double GetDistance(double x1, double y1, double x2, double y2)
+		{
+			return Math.Sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
+		}
+
         public void Actions(List<CTank> tanks, List<CShell> shells, CManagerMedChest medChests, CManagerMedChest antibonus)
         {
+			double old_x = m_x, old_y = m_y;
+
             if (IsDead())
             {
                 m_reload = 0;
@@ -242,9 +250,12 @@ namespace BattleCity.NET
 
             if (distance != -1 && m_reload == 0)
             {
+				m_info.Statistics.shotsFired++;
                 shells.Add(new CShell(Convert.ToInt32(m_x), Convert.ToInt32(m_y), m_turretDirection, distance, this));
                 m_reload = CConstants.reloadTime;
             }
+
+			m_info.Statistics.distanceTraveled += Convert.ToInt32(GetDistance(m_x, m_y, old_x, old_y));
         }
 
 		private void DrawProgressBar(Graphics graph, int elevation, int value, int valueMax)
@@ -258,8 +269,15 @@ namespace BattleCity.NET
 
         public void SlowDown()
         {
+			m_info.Statistics.collectedAntibonus++;
             m_slowSince = Environment.TickCount;
         }
+
+		public void Heal()
+		{
+			m_info.Statistics.collectedMedicineChest++;
+			SetHealth(10);
+		}
 
         public void Draw(Graphics graph)
         {
@@ -286,8 +304,7 @@ namespace BattleCity.NET
         {
             pbHealth.Value = m_health;
             pbReload.Value = m_reload * pbReload.Maximum / CConstants.reloadTime;
-            //Color color =  (m_health < 40 ) ? Color.Red : Color.Green;
-            hits.Text = Convert.ToString(m_hits);
+			hits.Text = Convert.ToString(m_info.Statistics.successfulShots);
             if (!IsDead())
             {
                 condition.Text = "Still alive";
@@ -362,19 +379,29 @@ namespace BattleCity.NET
             return false;
         }
 
-        public void SetDamage(short damage)
+        public void SetDamage(int damage, CTank attacker)
         {
-            if(m_health < 0)
+            if (m_health <= 0)
             {
                 return;
             }
+
+			m_info.Statistics.lostHealth += damage;
             m_health -= damage;
-            if (m_health < 0)
+            if (m_health <= 0)
             {
+				m_info.Statistics.lostHealth += m_health;
+
                 m_health = 0;
+				attacker.RegisterKill();
 				CResourceManager.Instance.PlaySound(CResourceManager.SoundEffect.PlayerDeath);
             }
         }
+
+		public void RegisterKill()
+		{
+			m_info.Statistics.destroyedTanks++;
+		}
 
 		public double GetX()
 		{
@@ -386,20 +413,18 @@ namespace BattleCity.NET
             return m_y;
         }
 
-        public void SetHealth(short health)
+        public void SetHealth(int health)
         {
             if (IsDead())
             {
                 return;
             }
-            if (m_health <= CConstants.tankHealth - CConstants.tankHealth / 10)
-            {
-                m_health += health;
-            }
-            else
-            {
-                m_health = CConstants.tankHealth;
-            }
+
+			m_health += health;
+			if (m_health > CConstants.tankHealth)
+			{
+				m_health = CConstants.tankHealth;
+			}
         }
 
         public bool IsDead()
@@ -414,7 +439,7 @@ namespace BattleCity.NET
 
         public void SuccessfulHit()
 		{
-			m_hits++;
+			m_info.Statistics.successfulShots++;
 		}
 
 		public void Dispose()
@@ -434,7 +459,6 @@ namespace BattleCity.NET
         private double m_x;
         private double m_y;
         private int m_health;
-        private int m_hits;
         private int m_reload;
         private int m_baseDirection;
         private int m_turretDirection;

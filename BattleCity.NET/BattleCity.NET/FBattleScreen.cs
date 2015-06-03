@@ -223,15 +223,15 @@ namespace BattleCity.NET
             {
                 if (tank.CheckCollision(x, y, CConstants.tankSize / 2)) //прямое попадание
                 {
-                    tank.SetDamage(10);
+					tank.SetDamage(10, shell.GetOwner());
                 }
                 if (tank.CheckCollision(x, y, CConstants.tankSize)) //в половине корпуса от танка
                 {
-                    tank.SetDamage(5);
+					tank.SetDamage(5, shell.GetOwner());
                 }
                 if (tank.CheckCollision(x, y, 3 * CConstants.tankSize / 2)) //в корпусе от танка
                 {
-                    tank.SetDamage(5);
+					tank.SetDamage(5, shell.GetOwner());
                     shell.SuccessfulyHits();
                 }
                 if (tank.IsDead())
@@ -353,26 +353,8 @@ namespace BattleCity.NET
 				m_closedNormally = true;
 				m_isRunning = false;
 				return;
-				/*
-                DialogResult result = MessageBox.Show(this, "Do you want to play another game?", GetWinner() + ". Game over", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (result == DialogResult.Yes)
-                {
-                    this.Close();
-                    this.Owner.Show();
-                    return;
-                }
-                else
-                {
-                    Application.Exit();
-                    return;
-                }*/
             }
 
-            /*Random rnd = new Random();
-            if (rnd.Next(1, 1000) <= 10)
-            {
-                m_medChests.AddMedChest();
-            }*/
             RefreshTanks();
             RefreshShells();
             RefreshExplosions();
@@ -380,13 +362,7 @@ namespace BattleCity.NET
 
         private void FBattleScreen_FormClosing(object sender, FormClosingEventArgs e)
         {
-			//MessageBox.Show(e.CloseReason.ToString());
 			m_isRunning = false;
-			//this.Close();
-            /*if (m_IsRunning)
-            {
-                Application.Exit();
-            }*/
         }
 
 		private void tFPS_Tick(object sender, EventArgs e)
@@ -395,11 +371,6 @@ namespace BattleCity.NET
 			this.Text = "FPS: " + m_FPS.ToString();
 			m_FPS = 0;	
 		}
-
-		//private void FBattleScreen_Shown(object sender, EventArgs e)
-		//{
-		//	
-		//}
 
 		private void FBattleScreen_FormClosed(object sender, FormClosedEventArgs e)
 		{
