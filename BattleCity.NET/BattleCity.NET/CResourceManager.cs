@@ -36,6 +36,7 @@ namespace BattleCity.NET
 
 		private System.IO.Stream[] m_sounds;
 		private Bitmap m_tankPreview;
+        private Bitmap m_antibonus;
 		private Random m_RNG;
 
 		const int PreviewWidth = 32, PreviewHeight = 32;
@@ -43,7 +44,7 @@ namespace BattleCity.NET
 		private CResourceManager()
 		{
 			m_RNG = new Random();
-
+            m_antibonus = Properties.Resources.anti;
 			m_tankPreview = ResizeBitmap(Properties.Resources.tank_full,
 				PreviewWidth, PreviewHeight);
 
@@ -56,6 +57,11 @@ namespace BattleCity.NET
 			m_sounds[(int)SoundEffect.PlayerDeath] = Properties.Resources.player_death;
 			m_sounds[(int)SoundEffect.Shot] = Properties.Resources.shot;
 		}
+
+        public Bitmap GetAntibonus()
+        {
+            return m_antibonus;
+        }
 
 		public void PlaySound(SoundEffect sound_effect)
 		{

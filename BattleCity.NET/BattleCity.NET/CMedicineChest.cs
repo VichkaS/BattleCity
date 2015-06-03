@@ -52,13 +52,6 @@ namespace BattleCity.NET
             m_y = tempY;
         }
 
-        /*public CMedicineChest(Random rnd)
-        {
-            m_timeBegin = (int)(DateTime.Now.Second);
-            m_x = rnd.Next(1, 500);
-            m_y = rnd.Next(1, 500);
-        }*/
-
         public double GetX()
         {
             return m_x;

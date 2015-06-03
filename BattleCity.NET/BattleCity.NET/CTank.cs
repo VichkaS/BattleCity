@@ -28,7 +28,7 @@ namespace BattleCity.NET
                 m_y = rnd.Next(CConstants.formHeight - CConstants.tankSize) + CConstants.tankSize / 2;
                 triescount++;
             } while (!PlacementIsFree(m_x, m_y, tanks) && triescount < 500);
-            m_health = 100;
+            m_health = CConstants.tankHealth;
             m_hits = 0;
             m_baseDirection = rnd.Next(360);
             m_turretDirection = m_baseDirection;
@@ -38,6 +38,7 @@ namespace BattleCity.NET
         }
 
 		public int Index;
+        private int m_slowSince;
         
         private bool PlacementIsFree(double x, double y, List<CTank> tanks)
         {
@@ -138,7 +139,7 @@ namespace BattleCity.NET
             }
         }
 
-        public void Actions(List<CTank> tanks, List<CShell> shells, CManagerMedChest medChests)
+        public void Actions(List<CTank> tanks, List<CShell> shells, CManagerMedChest medChests, CManagerMedChest antibonus)
         {
             if (IsDead())
             {
@@ -152,18 +153,24 @@ namespace BattleCity.NET
             
             List<CTank> visibleEnemies = GetEnemies(tanks);
             List<CMedicineChest> allChest = medChests.GetMedicineChests();
-
+            List<CMedicineChest> allAnti = antibonus.GetMedicineChests();
+            bool isSlow = Environment.TickCount - m_slowSince <= CConstants.slowTime;
             int distance = -1;
             try
             {
 				m_dll.SetStatus(Convert.ToInt32(m_x), Convert.ToInt32(m_y), m_baseDirection, m_turretDirection, m_health, DetectCollisions(tanks));
 
-				m_dll.SetObjectCount(visibleEnemies.Count(), allChest.Count(), 0);
+				m_dll.SetObjectCount(visibleEnemies.Count, allChest.Count, allAnti.Count);
                 for (int i = 0; i < allChest.Count(); ++i)
                 {
 					m_dll.SetBonusCoord(i, Convert.ToInt32(allChest[i].GetX()), Convert.ToInt32(allChest[i].GetY()));
                 }
-				
+
+                for (int i = 0; i < allAnti.Count(); ++i)
+                {
+                    m_dll.SetAntibonusCoord(i, Convert.ToInt32(allAnti[i].GetX()), Convert.ToInt32(allAnti[i].GetY()));
+                }
+
                 for (int i = 0; i < visibleEnemies.Count; i++)
                 {
 					m_dll.SetEnemyProperties(i, Convert.ToInt32(visibleEnemies[i].m_x), Convert.ToInt32(visibleEnemies[i].m_y),
@@ -180,6 +187,10 @@ namespace BattleCity.NET
                 {
                     rotationSpeed = -10;
                 }
+                if (isSlow)
+                {
+                    rotationSpeed /= 2;
+                }
                 m_baseDirection += Convert.ToInt32(rotationSpeed * CConstants.baseRotationRate + 360) % 360;
 				
                 int dir = m_dll.GetDirection();
@@ -191,11 +202,18 @@ namespace BattleCity.NET
                 {
                     dir = -1;
                 }
-				TryToMoveForward(dir * CConstants.tankSpeed * Math.Sin(m_baseDirection * Math.PI / 180),
-					dir * CConstants.tankSpeed * Math.Cos(m_baseDirection * Math.PI / 180), tanks);
+                int tankSpeed = CConstants.tankSpeed;
+
+                if (isSlow)
+                {
+                    tankSpeed /= 2;
+                }
+				TryToMoveForward(dir * tankSpeed * Math.Sin(m_baseDirection * Math.PI / 180),
+					dir * tankSpeed * Math.Cos(m_baseDirection * Math.PI / 180), tanks);
                 FixCollisions(tanks);
 
                 int turretRotationSpeed = m_dll.GetTurretRotationSpeed();
+             
                 if (turretRotationSpeed > 20)
                 {
                     turretRotationSpeed = 20;
@@ -204,6 +222,10 @@ namespace BattleCity.NET
                 {
                     turretRotationSpeed = -20;
                 }
+                if (isSlow)
+                {
+                    rotationSpeed /= 2;
+                }
                 m_turretDirection += Convert.ToInt32(turretRotationSpeed * CConstants.turretRotationRate + 360) % 360;
 				
                 distance = m_dll.GetFireDistance();
@@ -211,7 +233,6 @@ namespace BattleCity.NET
                 {
                     distance = -1;
                 }
-
             }
             catch
             {
@@ -235,6 +256,11 @@ namespace BattleCity.NET
 			graph.DrawRectangle(new Pen(Color.White),    (int)m_x - 30, (int)m_y - elevation, 60,       10);
 		}
 
+        public void SlowDown()
+        {
+            m_slowSince = Environment.TickCount;
+        }
+
         public void Draw(Graphics graph)
         {
             if (m_destroyed)
@@ -247,7 +273,7 @@ namespace BattleCity.NET
                 graph.DrawImage(m_base, FBattleScreen.GetRotatedRectangle(m_baseDirection, CConstants.tankSize, m_x, m_y));
                 graph.DrawImage(m_turret, FBattleScreen.GetRotatedRectangle(m_turretDirection, CConstants.turretSize, m_x, m_y));
 
-				DrawProgressBar(graph, 60, m_health, 100);
+				DrawProgressBar(graph, 60, m_health, CConstants.tankHealth);
 				DrawProgressBar(graph, 47, m_reload, CConstants.reloadTime);
             }
             else
@@ -260,7 +286,7 @@ namespace BattleCity.NET
         {
             pbHealth.Value = m_health;
             pbReload.Value = m_reload * pbReload.Maximum / CConstants.reloadTime;
-            Color color =  (m_health < 40 ) ? Color.Red : Color.Green;
+            //Color color =  (m_health < 40 ) ? Color.Red : Color.Green;
             hits.Text = Convert.ToString(m_hits);
             if (!IsDead())
             {
@@ -366,13 +392,13 @@ namespace BattleCity.NET
             {
                 return;
             }
-            if (m_health <= 90)
+            if (m_health <= CConstants.tankHealth - CConstants.tankHealth / 10)
             {
                 m_health += health;
             }
-            else if (m_health > 90)
+            else
             {
-                m_health = 100;
+                m_health = CConstants.tankHealth;
             }
         }
 
@@ -407,11 +433,11 @@ namespace BattleCity.NET
         private readonly Image m_tank;
         private double m_x;
         private double m_y;
-        private short m_health;
-        private short m_hits;
-        private short m_reload;
+        private int m_health;
+        private int m_hits;
+        private int m_reload;
         private int m_baseDirection;
         private int m_turretDirection;
-        private short m_deadPlace;
+        private int m_deadPlace;
     }
 }
