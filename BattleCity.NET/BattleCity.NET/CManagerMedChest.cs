@@ -10,13 +10,11 @@ namespace BattleCity.NET
     class CManagerMedChest
     {
         List<CMedicineChest> m_MedicineChests;
-        //Random rnd;
         List<CTank> m_Tanks;
+
         public CManagerMedChest(List<CTank> Tanks)
         {
-            //rnd = new Random();
             m_MedicineChests = new List<CMedicineChest>();
-            //m_MedicineChests.Add(new CMedicineChest(rnd));
             m_Tanks = Tanks;
         }
 
@@ -49,7 +47,7 @@ namespace BattleCity.NET
                         }
                         else
                         {
-                            Tanks[k].SetHealth(10);
+							Tanks[k].Heal();
                         }
 
                         if (!tmp.Contains(i))
@@ -59,12 +57,10 @@ namespace BattleCity.NET
                     {
                         if (!tmp.Contains(i))
                             tmp.Add(i);
-                       // break;
-
                     }
                 }
             }
-            //foreach (int i in tmp)
+
             for (int i = 0; i < tmp.Count; ++i)
             {
                 m_MedicineChests.RemoveAt(tmp[i]);

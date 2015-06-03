@@ -45,22 +45,11 @@ namespace BattleCity.NET
             double tempY = 0;
             do
             {
-                tempX = rnd.Next(20, CConstants.formWidth - 20);
-                tempY = rnd.Next(20, CConstants.formHeight - 20);
+                tempX = rnd.Next(20, CConstants.formWidth - 30);
+				tempY = rnd.Next(20, CConstants.formHeight - 30);
             } while (CoordinatesIsMatchTanks(Tanks, tempX, tempY));
             m_x = tempX;
             m_y = tempY;
-
-            
-        }
-
-        public CMedicineChest(Random rnd)
-        {
-            m_timeBegin = (int)(DateTime.Now.Second);
-            m_x = rnd.Next(1, 500);
-            m_y = rnd.Next(1, 500);
-
-
         }
 
         public double GetX()

@@ -23,7 +23,7 @@ namespace BattleCity.NET
 		private short m_deadPlace = 1;
 		private CManagerMedChest m_medChests, m_antibonuses;
 		private Image m_ImageMedicineChest;
-		private bool m_isRunning;
+		private bool m_isRunning, m_closedNormally;
 		private int m_FPS;
 
 		public FBattleScreen(CMatchParameters parameters, List<CTankInfo> participants)
@@ -107,6 +107,27 @@ namespace BattleCity.NET
 
 		public void NewMatch(List<int> pIndexes)
         {
+			gbPlayer1.Text = m_participants[pIndexes[0]].AuthorName;
+			gbPlayer2.Text = m_participants[pIndexes[1]].AuthorName;
+			if (pIndexes.Count >= 3)
+			{
+				gbPlayer3.Visible = true;
+				gbPlayer3.Text = m_participants[pIndexes[2]].AuthorName;
+			}
+			else
+			{
+				gbPlayer3.Visible = false;
+			}
+			if (pIndexes.Count >= 4)
+			{
+				gbPlayer4.Visible = true;
+				gbPlayer4.Text = m_participants[pIndexes[3]].AuthorName;
+			}
+			else
+			{
+				gbPlayer4.Visible = false;
+			}
+
 			m_tanks.Clear();
 			m_shells.Clear();
 			m_dead.Clear();
@@ -122,6 +143,7 @@ namespace BattleCity.NET
 			}
 
 			m_isRunning = true;
+			m_closedNormally = false;
 			m_RenderThread = new Thread(GameLoop);
 			m_RenderThread.Start();
         }
@@ -201,15 +223,15 @@ namespace BattleCity.NET
             {
                 if (tank.CheckCollision(x, y, CConstants.tankSize / 2)) //прямое попадание
                 {
-                    tank.SetDamage(10);
+					tank.SetDamage(10, shell.GetOwner());
                 }
                 if (tank.CheckCollision(x, y, CConstants.tankSize)) //в половине корпуса от танка
                 {
-                    tank.SetDamage(5);
+					tank.SetDamage(5, shell.GetOwner());
                 }
                 if (tank.CheckCollision(x, y, 3 * CConstants.tankSize / 2)) //в корпусе от танка
                 {
-                    tank.SetDamage(5);
+					tank.SetDamage(5, shell.GetOwner());
                     shell.SuccessfulyHits();
                 }
                 if (tank.IsDead())
@@ -328,28 +350,11 @@ namespace BattleCity.NET
             CheckForError();
             if (GameOver())
             {
+				m_closedNormally = true;
 				m_isRunning = false;
 				return;
-				/*
-                DialogResult result = MessageBox.Show(this, "Do you want to play another game?", GetWinner() + ". Game over", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (result == DialogResult.Yes)
-                {
-                    this.Close();
-                    this.Owner.Show();
-                    return;
-                }
-                else
-                {
-                    Application.Exit();
-                    return;
-                }*/
             }
 
-            /*Random rnd = new Random();
-            if (rnd.Next(1, 1000) <= 10)
-            {
-                m_medChests.AddMedChest();
-            }*/
             RefreshTanks();
             RefreshShells();
             RefreshExplosions();
@@ -358,11 +363,6 @@ namespace BattleCity.NET
         private void FBattleScreen_FormClosing(object sender, FormClosingEventArgs e)
         {
 			m_isRunning = false;
-			//this.Close();
-            /*if (m_IsRunning)
-            {
-                Application.Exit();
-            }*/
         }
 
 		private void tFPS_Tick(object sender, EventArgs e)
@@ -372,17 +372,16 @@ namespace BattleCity.NET
 			m_FPS = 0;	
 		}
 
-		//private void FBattleScreen_Shown(object sender, EventArgs e)
-		//{
-		//	
-		//}
-
 		private void FBattleScreen_FormClosed(object sender, FormClosedEventArgs e)
 		{
 			m_isRunning = false;
 			foreach (var tank in m_tanks)
 			{
 				tank.Dispose();
+			}
+			if (!m_closedNormally)
+			{
+				Application.Exit();
 			}
 		}
 
