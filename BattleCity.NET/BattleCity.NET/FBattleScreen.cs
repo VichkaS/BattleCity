@@ -21,7 +21,7 @@ namespace BattleCity.NET
 		private List<CShell> m_shells;
 		private List<CExplosion> m_explosions;
 		private short m_deadPlace = 1;
-		private CManagerMedChest m_medChests;
+		private CManagerMedChest m_medChests, m_antibonuses;
 		private Image m_ImageMedicineChest;
 		private bool m_isRunning;
 		private int m_FPS;
@@ -45,7 +45,31 @@ namespace BattleCity.NET
 
 		private void ApplyParameters(CMatchParameters parameters)
 		{
-		}
+            CConstants.tankSpeed = Convert.ToInt32((float)CConstants.defaultTankSpeed * parameters.speed / 100f);
+            CConstants.reloadTime = parameters.reload_time * 1000 / CConstants.refreshTime;
+            CConstants.tankHealth = parameters.health_points;
+            pbPlayer1Health.Maximum = CConstants.tankHealth;
+            pbPlayer2Health.Maximum = CConstants.tankHealth;
+            pbPlayer3Health.Maximum = CConstants.tankHealth;
+            pbPlayer4Health.Maximum = CConstants.tankHealth;
+            if (parameters.medkit_spawn_rate == 0)
+            {
+                tNewBonus.Enabled = false;
+            }
+            else
+            {
+                tNewBonus.Interval = 60 / parameters.medkit_spawn_rate * 1000;
+            }
+            if (parameters.slowness_spawn_rate == 0)
+            {
+                tAntibonus.Enabled = false;
+            }
+            else
+            {
+                tAntibonus.Interval = 60 / parameters.slowness_spawn_rate * 1000;
+            }
+           
+        }
 
         public static Point[] GetRotatedRectangle(int degree, int size, double x0, double y0)
         {
@@ -72,6 +96,7 @@ namespace BattleCity.NET
 			m_dead.Clear();
 			m_explosions.Clear();
 			m_medChests = new CManagerMedChest(m_tanks);
+            m_antibonuses = new CManagerMedChest(m_tanks);
 
 			foreach (int index in pIndexes)
 			{
@@ -130,7 +155,8 @@ namespace BattleCity.NET
 				{
 					explosion.Draw(gr);
 				}
-				m_medChests.DrawAllMedchests(gr, m_tanks, m_ImageMedicineChest);
+				m_medChests.DrawAllMedchests(gr, m_tanks, m_ImageMedicineChest, false);
+                m_antibonuses.DrawAllMedchests(gr, m_tanks, CResourceManager.Instance.GetAntibonus(), true);
 
 				if (m_isRunning)
 					formGraphics.DrawImageUnscaled(screen, new Point(0, 0));
@@ -149,7 +175,7 @@ namespace BattleCity.NET
         {
             for (int i = 0; i < m_tanks.Count; i++)
             {
-                m_tanks[i].Actions(m_tanks, m_shells, m_medChests);
+                m_tanks[i].Actions(m_tanks, m_shells, m_medChests, m_antibonuses);
             }
         }
 
@@ -303,11 +329,11 @@ namespace BattleCity.NET
                 }*/
             }
 
-            Random rnd = new Random();
+            /*Random rnd = new Random();
             if (rnd.Next(1, 1000) <= 10)
             {
                 m_medChests.AddMedChest();
-            }
+            }*/
             RefreshTanks();
             RefreshShells();
             RefreshExplosions();
@@ -355,6 +381,16 @@ namespace BattleCity.NET
 				RefreshInterface();
 			}
 		}
+
+        private void tNewBonus_Tick(object sender, EventArgs e)
+        {
+            m_medChests.AddMedChest();
+        }
+
+        private void tAntibonus_Tick(object sender, EventArgs e)
+        {
+            m_antibonuses.AddMedChest();
+        }
 
     }
 }

@@ -62,7 +62,7 @@ namespace BattleCity.NET
 
 		public CMatchParameters()
 		{
-			medkit_spawn_rate = new CLimitedValue(0, 30, 5);
+			medkit_spawn_rate = new CLimitedValue(0, 30, 15);
 			slowness_spawn_rate = new CLimitedValue(0, 30, 3);
 			reload_time = new CLimitedValue(1, 60, 8);
 			health_points = new CLimitedValue(1, 200, 100);

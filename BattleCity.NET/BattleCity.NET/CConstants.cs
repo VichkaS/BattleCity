@@ -36,10 +36,12 @@ namespace BattleCity.NET
         public const int turretSize = 80;
         public const int formWidth = 640;
         public const int formHeight = 480;
-        public const int tankSpeed = refreshTime / 10;
+        public const int defaultTankSpeed = refreshTime / 10;
+        static public int tankSpeed = defaultTankSpeed;
         public const double baseRotationRate = 0.01 * refreshTime;
         public const double turretRotationRate = 0.01 * refreshTime;
-        public const int reloadTime = 5000 / refreshTime;
+        static public int reloadTime = 5000 / refreshTime;
+        static public int tankHealth = 100;
         public const int shellSpeed = refreshTime;
         public const int shellSize = 16;
         public const int explodeTime = 200 / refreshTime;
@@ -48,5 +50,6 @@ namespace BattleCity.NET
         public readonly static Image shell;
         public readonly static Image wrecked;
         public static int error;
+        public const int slowTime = 5000;
     }
 }

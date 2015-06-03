@@ -10,13 +10,13 @@ namespace BattleCity.NET
     class CManagerMedChest
     {
         List<CMedicineChest> m_MedicineChests;
-        Random rnd;
+        //Random rnd;
         List<CTank> m_Tanks;
         public CManagerMedChest(List<CTank> Tanks)
         {
-            rnd = new Random();
+            //rnd = new Random();
             m_MedicineChests = new List<CMedicineChest>();
-            m_MedicineChests.Add(new CMedicineChest(rnd));
+            //m_MedicineChests.Add(new CMedicineChest(rnd));
             m_Tanks = Tanks;
         }
 
@@ -27,10 +27,10 @@ namespace BattleCity.NET
 
         public void AddMedChest()
         {
-            m_MedicineChests.Add(new CMedicineChest(rnd, m_Tanks, m_MedicineChests));
+            m_MedicineChests.Add(new CMedicineChest(CResourceManager.Instance.RNG, m_Tanks, m_MedicineChests));
         }
 
-        public void DrawAllMedchests(Graphics e, List<CTank> Tanks, Image imageMedChest)
+        public void DrawAllMedchests(Graphics e, List<CTank> Tanks, Image imageMedChest, bool isAntibonus)
         {
             List<int> tmp = new List<int>();
             for (int i = 0; i < m_MedicineChests.Count(); ++i)
@@ -43,7 +43,15 @@ namespace BattleCity.NET
                     }
                     else if (m_MedicineChests[i].IsVisible() && m_MedicineChests[i].CheckCollision(Tanks[k].GetX(), Tanks[k].GetY()))
                     {
-                        Tanks[k].SetHealth(10);
+                        if (isAntibonus)
+                        {
+                            Tanks[k].SlowDown();
+                        }
+                        else
+                        {
+                            Tanks[k].SetHealth(10);
+                        }
+
                         if (!tmp.Contains(i))
                             tmp.Add(i);
                     }
