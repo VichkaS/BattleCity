@@ -4,6 +4,7 @@ using System.Windows.Forms;
 
 namespace BattleCity.NET
 {
+	/*
     class CProgressBar : Control
     {
          //Cal when Value was changed
@@ -129,4 +130,5 @@ namespace BattleCity.NET
             }
         }
     }
+	 */
 }

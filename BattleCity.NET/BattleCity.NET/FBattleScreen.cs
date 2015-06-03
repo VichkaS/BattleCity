@@ -8,23 +8,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Media;
+using System.Threading;
 
 namespace BattleCity.NET
 {
     public partial class FBattleScreen : Form
     {
-        public FBattleScreen(int countTanks)
+        public FBattleScreen()
         {
             InitializeComponent();
-            this.SetStyle(ControlStyles.AllPaintingInWmPaint |
-               ControlStyles.UserPaint |
-               ControlStyles.DoubleBuffer, true);
-            this.BackgroundImageLayout = ImageLayout.None;
-
-			this.BackgroundImage = (Bitmap)Properties.Resources.ResourceManager.GetObject("fon"); 
+            
 			m_ImageMedicineChest = (Bitmap)Properties.Resources.ResourceManager.GetObject("MedicineChest");
 
-            timer1.Interval = CConstants.refreshTime;
             this.Width = CConstants.formWidth + 218;
             this.Height = CConstants.formHeight + 47;
             shells = new List<CShell>();
@@ -32,19 +27,12 @@ namespace BattleCity.NET
             explosions = new List<CExplosion>();
 			CResourceManager.Instance.PlaySound(CResourceManager.SoundEffect.GameStart);
             m_medChests = new CManagerMedChest(tanks);
-            for (int i = 0; i < 4; ++i)
-            {
-                listProgressBar.Add(new CProgressBar());
-                listProgressBarHealth.Add(new CProgressBar());
-                if (i < countTanks)
-                {
-                    this.Controls.Add(listProgressBar[i]);
-                    this.Controls.Add(listProgressBarHealth[i]);
-                }
-             }
+
+			m_IsRunning = true;
+			m_RenderThread = new Thread(GameLoop);
         }
-        List<CProgressBar> listProgressBar = new List<CProgressBar>();
-        List<CProgressBar> listProgressBarHealth = new List<CProgressBar>();
+
+		private Thread m_RenderThread;
         private List<CTank> tanks;
         private List<CShell> shells;
         private List<CExplosion> explosions;
@@ -70,43 +58,71 @@ namespace BattleCity.NET
                 new Point(Convert.ToInt32(x0 + x2), Convert.ToInt32(y0 + y2)), new Point(Convert.ToInt32(x0 + x3), Convert.ToInt32(y0 + y3)) };
         }
 
-        public void NewTank(string dll, string image)
+        public void NewTank(CTankInfo tankInfo)
         {
-            tanks.Add(new CTank(dll, image, tanks)); 
+            tanks.Add(new CTank(tankInfo, tanks)); 
         }
 
         private void RefreshInterface()
         {
-          
             if (tanks.Count < 1) return;
-            tanks[0].SetTankInfo(pbPlayer1Health, pbPlayer1Reload, lPlayer1Hits, lPlayer1Condition, pbTank1Image, gbPlayer1, listProgressBar[0], listProgressBarHealth[0]);
+            tanks[0].SetTankInfo(pbPlayer1Health, pbPlayer1Reload, lPlayer1Hits, lPlayer1Condition, pbTank1Image, gbPlayer1);
             if (tanks.Count < 2) return;
-            tanks[1].SetTankInfo(pbPlayer2Health, pbPlayer2Reload, lPlayer2Hits, lPlayer2Condition, pbTank2Image, gbPlayer2, listProgressBar[1], listProgressBarHealth[1]);
+            tanks[1].SetTankInfo(pbPlayer2Health, pbPlayer2Reload, lPlayer2Hits, lPlayer2Condition, pbTank2Image, gbPlayer2);
             if (tanks.Count < 3) return;
-            tanks[2].SetTankInfo(pbPlayer3Health, pbPlayer3Reload, lPlayer3Hits, lPlayer3Condition, pbTank3Image, gbPlayer3, listProgressBar[2], listProgressBarHealth[2]);
+            tanks[2].SetTankInfo(pbPlayer3Health, pbPlayer3Reload, lPlayer3Hits, lPlayer3Condition, pbTank3Image, gbPlayer3);
             if (tanks.Count < 4) return;
-            tanks[3].SetTankInfo(pbPlayer4Health, pbPlayer4Reload, lPlayer4Hits, lPlayer4Condition, pbTank4Image, gbPlayer4, listProgressBar[3], listProgressBarHealth[3]);
+            tanks[3].SetTankInfo(pbPlayer4Health, pbPlayer4Reload, lPlayer4Hits, lPlayer4Condition, pbTank4Image, gbPlayer4);
         }
 
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            base.OnPaint(e);
-            for (int i = 0; i < tanks.Count; i++)
-            {
-                tanks[i].Draw(e.Graphics);
-            }
-            for (int i = 0; i < shells.Count; i++)
-            {
-                shells[i].DrawTrack(e.Graphics);
-                if (shells[i].IsVisible())
-                    shells[i].Draw(e.Graphics);
-            }
-            for (int i = 0; i < explosions.Count; i++)
-            {
-                explosions[i].Draw(e.Graphics);
-            }
-            m_medChests.DrawAllMedchests(e.Graphics, tanks, ref m_ImageMedicineChest);
-        }
+		// 30 FPS
+		private readonly int m_FrameRenderTime = 1000 / 30;
+		private void GameLoop()
+		{
+			Bitmap backgroundImage = Properties.Resources.fon; 
+			var formGraphics = this.CreateGraphics();
+			Bitmap screen = new Bitmap(CConstants.formWidth, CConstants.formHeight);
+			Graphics gr = Graphics.FromImage(screen);
+
+			int ticks;
+
+			while (m_IsRunning)
+			{
+				ticks = Environment.TickCount;
+
+				UpdateScreen();
+
+				gr.DrawImageUnscaled(backgroundImage, new Point(0, 0));
+				//gr.FillRectangle(new SolidBrush(Color.Black), 0, 0, screen.Width, screen.Height);
+				for (int i = 0; i < tanks.Count; i++)
+				{
+					tanks[i].Draw(gr);
+				}
+				for (int i = 0; i < shells.Count; i++)
+				{
+					shells[i].DrawTrack(gr);
+					if (shells[i].IsVisible())
+						shells[i].Draw(gr);
+				}
+				foreach (var explosion in explosions)
+				{
+					explosion.Draw(gr);
+				}
+				m_medChests.DrawAllMedchests(gr, tanks, m_ImageMedicineChest);
+
+				if (m_IsRunning)
+					formGraphics.DrawImageUnscaled(screen, new Point(0, 0));
+
+				int oldTicks = ticks;
+				ticks = Environment.TickCount;
+				int sleepTime = m_FrameRenderTime - (ticks - oldTicks);
+				if (sleepTime > 0)
+				{
+					Thread.Sleep(sleepTime);
+				}
+			}
+		}
+
         private void RefreshTanks()
         {
             for (int i = 0; i < tanks.Count; i++)
@@ -186,7 +202,7 @@ namespace BattleCity.NET
             {
                 return;
             }
-            timer1.Enabled = false;
+            m_IsRunning = false;
             DialogResult result = DialogResult.OK;
             if (CConstants.error == 1)
             {
@@ -240,12 +256,17 @@ namespace BattleCity.NET
             return "Player " + Convert.ToString(winnerIndex) + " wins";
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+		private bool m_IsRunning;
+		private int m_FPS;
+
+        private void UpdateScreen()
         {
+			m_FPS++;
+
             CheckForError();
             if (GameOver())
             {
-                timer1.Enabled = false;
+				m_IsRunning = false;
 				CResourceManager.Instance.PlaySound(CResourceManager.SoundEffect.GameOver);
                 DialogResult result = MessageBox.Show(this, "Do you want to play another game?", GetWinner() + ". Game over", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == DialogResult.Yes)
@@ -268,21 +289,43 @@ namespace BattleCity.NET
             RefreshTanks();
             RefreshShells();
             RefreshExplosions();
-            RefreshInterface();
-            this.Refresh();
         }
 
         private void FBattleScreen_FormClosing(object sender, FormClosingEventArgs e)
         {
-            for (int i = 0; i < tanks.Count; i++)
-            {
-                tanks[i].Free();
-            }
-            if (timer1.Enabled)
+			m_IsRunning = false;
+			//this.Close();
+            /*if (m_IsRunning)
             {
                 Application.Exit();
-            }
+            }*/
         }
+
+		private void tFPS_Tick(object sender, EventArgs e)
+		{
+			//lFPS.Text = "FPS: " + m_FPS.ToString();
+			this.Text = "FPS: " + m_FPS.ToString();
+			m_FPS = 0;	
+		}
+
+		private void FBattleScreen_Shown(object sender, EventArgs e)
+		{
+			m_RenderThread.Start();
+		}
+
+		private void FBattleScreen_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			m_IsRunning = false;
+			foreach (var tank in tanks)
+			{
+				tank.Dispose();
+			}
+		}
+
+		private void tUpdateInterface_Tick(object sender, EventArgs e)
+		{
+			RefreshInterface();
+		}
 
     }
 }

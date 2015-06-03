@@ -34,100 +34,85 @@ int CompareAngles(int a, int b)///сравниваем углы
 	return angle;
 }
 
-double GetDistance (int x1, int x2, int y1, int y2) // получить расстояние
-	{
-		return sqrt((float)((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2)));  //расстояние от 1 до 200
-	}
-
-
-extern "C"
+double GetDistance(int x1, int x2, int y1, int y2) // получить расстояние
 {
-	AI_API void SetCoords(int x, int y)
-	{
-		tank.x = x;
-		tank.y = y;
-	}
-	AI_API void SetAngle(int angle)
-	{
-		tank.baseAngle = angle;
-	}
-	AI_API void SetTurretAngle(int angle)
-	{
-		tank.turretAngle = angle;
-	}
-	AI_API void SetCollisionStatus(bool isCollided)
-	{
-	}
+	return sqrt((float)((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2)));  //расстояние от 1 до 200
+}
 
-	AI_API void SetLivePercent(int percent) 
-	{
-	}
+AI_API void SetStatus(int x, int y, int angle, int turretAngle, int healthPoints, bool isCollided)
+{
+	tank.x = x;
+	tank.y = y;
+	tank.baseAngle = angle;
+	tank.turretAngle = turretAngle;
+}
 
-	AI_API void SetVisilbeEnemyCount(int count) 
-	{
-	}
-	AI_API void SetEnemyProteries(int enemyID, int x, int y, int angle, int turretAngle, int livePercent)
-	{
-	}
+AI_API void SetObjectCount(int visibleEnemies, int bonuses, int antibonuses)
+{
+}
 
-	AI_API int GetDirection()
-	{
-		return 0;
-	}
-	AI_API int GetRotateDirection()
-	{
-		if(CompareAngles(tank.baseAngle, tank.movingAngle) > 0)
-		{
-			return 1;
-		}
-		if(CompareAngles(tank.baseAngle, tank.movingAngle) < 0)
-		{
-			return -1;
-		}
-		return 1;
-	}
-	AI_API int GetRotateSpeed()
+AI_API void SetEnemyProperties(int id, int x, int y, int angle, int turretAngle, int healthPoints)
+{
+}
+
+AI_API void SetBonusCoord(int id, int x, int y)
+{
+}
+
+AI_API void SetAntibonusCoord(int id, int x, int y)
+{
+}
+
+AI_API int GetDirection()
+{
+	return 0;
+}
+
+AI_API int GetRotationSpeed()
+{
+	if (CompareAngles(tank.baseAngle, tank.movingAngle) > 0)
 	{
 		return 10;
 	}
-	AI_API int GetTurretRotateDirection()
+	if (CompareAngles(tank.baseAngle, tank.movingAngle) < 0)
 	{
-		if(CompareAngles(tank.turretAngle, tank.fireAngle) > 0)
-		{
-			return 1;
-		}
-		if(CompareAngles(tank.turretAngle, tank.fireAngle) < 0)
-		{
-			return -1;
-		}
-		return 0;
+		return -10;
 	}
-	AI_API int GetTurretRotateSpeed()
-	{
-		if(abs(CompareAngles(tank.turretAngle, tank.fireAngle)) < 20)
-		{
-			return abs(CompareAngles(tank.turretAngle, tank.fireAngle));
-		}
-		return 20;
-	}
-	AI_API int GetFireDistance()
-	{
-		return 120;
-	}
-
-	AI_API void SetVisibleChests(int count)
-	{
-	}
-
-	AI_API void SetCoordinatesChest(int id, double x, double y)
-	{
-	}
-
-
-	AI_API void Update()
-	{
-		tank.movingAngle = tank.baseAngle;  //угол движения тот же что и у положения танка
-		tank.fireAngle = tank.baseAngle; //угол стрельбы тот же что и  у корпуса
-	}
+	return 10;
 }
 
+AI_API int GetTurretRotationSpeed()
+{
+	int speed = 20;
+
+	if (abs(CompareAngles(tank.turretAngle, tank.fireAngle)) < 20)
+	{
+		speed = abs(CompareAngles(tank.turretAngle, tank.fireAngle));
+	}
+
+	if (CompareAngles(tank.turretAngle, tank.fireAngle) > 0)
+	{
+		return speed;
+	}
+	if (CompareAngles(tank.turretAngle, tank.fireAngle) < 0)
+	{
+		return -speed;
+	}
+	return 0;
+}
+
+AI_API int GetFireDistance()
+{
+	return 120;
+}
+
+AI_API void GetAuthorName(char *buffer, size_t buffer_size)
+{
+	strcpy_s(buffer, buffer_size, "Случайнов Кирилл Дмитрович");
+}
+
+AI_API void Update()
+{
+	tank.movingAngle = tank.baseAngle;  //угол движения тот же что и у положения танка
+	tank.fireAngle = tank.baseAngle; //угол стрельбы тот же что и  у корпуса
+}

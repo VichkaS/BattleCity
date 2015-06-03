@@ -118,18 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="base_blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\base_blue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="base_green" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\base_green.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="base_red" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\base_red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="base_yellow" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\base_yellow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="explode" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\explode.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -156,30 +144,6 @@
   </data>
   <data name="shot" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\shot.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="tank_blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\tank_blue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="tank_green" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\tank_green.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="tank_red" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\tank_red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="tank_yellow" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\tank_yellow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="turret_blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\turret_blue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="turret_green" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\turret_green.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="turret_red" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\turret_red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="turret_yellow" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\turret_yellow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="wrecked" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\wrecked.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

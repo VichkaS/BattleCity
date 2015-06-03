@@ -16,7 +16,6 @@ namespace BattleCity.NET
 		private CMatchParameters m_params;
 		private Color m_curColor;
 		private int m_imageKey = 0;
-		private List<CTankInfo> tanks;
 
         public FGameSetup()
         {
@@ -25,18 +24,7 @@ namespace BattleCity.NET
 			m_params = new CMatchParameters();
 			UpdateColorPreview(true);
 			UpdateInterface();
-			tanks = new List<CTankInfo>();
 			openFileDialog.InitialDirectory = Directory.GetCurrentDirectory();
-        }
-
-        class CTankInfo
-        {
-            private string dllPath;
-            private string imagePath;
-            public CTankInfo(string dll, string image) { dllPath = dll; imagePath = image; }
-            public void SetImage(string image) { imagePath = image; }
-            public string GetDLL() { return dllPath; }
-            public string GetImage() { return imagePath; }
         }
 
 		private void UpdateInterface()
@@ -67,11 +55,24 @@ namespace BattleCity.NET
 
 		private void AddParticipant(string dllName)
 		{
-			m_imageKey++;
+			CTankInfo tankInfo;
 
-			Image previewImage = CResourceManager.Instance.GetTankPreview(m_curColor);
+			try
+			{
+				tankInfo = new CTankInfo(dllName, m_curColor);
+			}
+			catch (DllException ex)
+			{
+				string message = String.Format("Error while loading \"{0}\":\n{1}",
+					Path.GetFileName(ex.DllFileName), ex.ErrorText);
+				MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
+			}
+
 			UpdateColorPreview(true);
 
+			Image previewImage = CResourceManager.Instance.GetTankPreview(tankInfo.Color);
+			
 			if (lvTanks.LargeImageList == null)
 			{
 				lvTanks.LargeImageList = new ImageList();
@@ -79,11 +80,11 @@ namespace BattleCity.NET
 				lvTanks.LargeImageList.ColorDepth = ColorDepth.Depth32Bit;
 			}
 
+			m_imageKey++;
 			lvTanks.LargeImageList.Images.Add(m_imageKey.ToString(), previewImage);
-			string ShortName = Path.GetFileName(dllName);
-			ListViewItem i = new ListViewItem(ShortName, m_imageKey.ToString());
-			i.Tag = new CTankInfo(dllName, "Green");
-			lvTanks.Items.Add(i);
+			ListViewItem item = new ListViewItem(tankInfo.AuthorName, m_imageKey.ToString());
+			item.Tag = tankInfo;
+			lvTanks.Items.Add(item);
 
 			UpdateInterface();
 		}
@@ -113,46 +114,23 @@ namespace BattleCity.NET
 
         private void bNext_Click(object sender, EventArgs e)
         {
-			tanks.Clear();
-			foreach (ListViewItem tank in lvTanks.Items)
-			{
-				tanks.Add((CTankInfo)tank.Tag);
-			}
+			FBattleScreen battleScreen = new FBattleScreen();
 
-            if (tanks.Count < 2)
+			for (int i = 0; i < lvTanks.Items.Count; i++)
             {
-                MessageBox.Show("Not enough players (minimum 2)");
-                return;
+				CTankInfo tankInfo = (CTankInfo)lvTanks.Items[i].Tag;
+				battleScreen.NewTank(tankInfo);
             }
-			if (tanks.Count > 4)
-			{
-				MessageBox.Show("Not implemented yet");
-				return;
-			}
 
-            FBattleScreen frm2 = new FBattleScreen(tanks.Count);
-            Directory.CreateDirectory("tmp");
-            for (int i = 0; i < tanks.Count; i++)
-            {
-                File.Copy(tanks[i].GetDLL(), "tmp/tempDLL" + Convert.ToString(i) + ".dll", true);
-                frm2.NewTank("tmp/tempDLL" + Convert.ToString(i) + ".dll", tanks[i].GetImage());
-            }
             this.Hide();
-            frm2.ShowDialog(this);
-            Directory.Delete("tmp", true);
+			battleScreen.ShowDialog(this);
+			this.Close();
         }
 
 		private void bSettings_Click(object sender, EventArgs e)
 		{
 			FMatchSettings settingsDlg = new FMatchSettings(m_params);
 			settingsDlg.ShowDialog(this);
-		}
-
-		private Bitmap GenerateColorPreview(Color color)
-		{
-			Bitmap colorPreview = Properties.Resources.tank_icon;
-			CResourceManager.ColorizeImage(colorPreview, color);
-			return colorPreview;
 		}
 
 		private void UpdateColorPreview(bool newColor)
@@ -162,7 +140,7 @@ namespace BattleCity.NET
 				m_curColor = CResourceManager.Instance.GenerateRandomColor();
 			}
 
-			bChangeColor.Image = GenerateColorPreview(m_curColor);
+			bChangeColor.Image = CResourceManager.GetColorPreview(m_curColor);
 		}
 		
 		private void bChangeColor_Click(object sender, EventArgs e)
@@ -171,6 +149,9 @@ namespace BattleCity.NET
 			{
 				if (lvTanks.SelectedItems.Count == 1)
 				{
+					CTankInfo tankInfo = (CTankInfo)lvTanks.SelectedItems[0].Tag;
+					tankInfo.Color = colorDialog.Color;
+
 					int imgIndex = lvTanks.LargeImageList.Images.IndexOfKey(lvTanks.SelectedItems[0].ImageKey);
 					lvTanks.LargeImageList.Images[imgIndex] = CResourceManager.Instance.GetTankPreview(colorDialog.Color);
 					lvTanks.Refresh();
