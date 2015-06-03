@@ -13,13 +13,13 @@ namespace BattleCity.NET
     {
         public struct TankStatistics
         {
-            int shotsFired;
-            int successfulShots;
-            int destroyedTanks;
-            int collectedMedicineChest;
-            int collectedAntibonus;
-            int lostHealth;
-            int distanceTraveled;
+            public int shotsFired;
+			public int successfulShots;
+			public int destroyedTanks;
+			public int collectedMedicineChest;
+			public int collectedAntibonus;
+			public int lostHealth;
+			public int distanceTraveled;
         }
 
 		private string m_dllName, m_dllPath, m_authorName;

@@ -101,6 +101,16 @@ namespace BattleCity.NET
 			return result;
 		}
 
+		public static Bitmap GetBackground(int width, int height)
+		{
+			return ResizeBitmap(Properties.Resources.background, width, height);
+		}
+
+		public static Bitmap GetBonus()
+		{
+			return Properties.Resources.bonus;
+		}
+
 		public Random RNG
 		{
 			get

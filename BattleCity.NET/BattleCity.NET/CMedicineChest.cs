@@ -81,7 +81,7 @@ namespace BattleCity.NET
             return false;
         }
 
-        public void Draw(Graphics graph, ref Image m_MedicineChest)
+        public void Draw(Graphics graph, Image m_MedicineChest)
         {
             graph.DrawImage(m_MedicineChest, (float)m_x, (float)m_y);
         }

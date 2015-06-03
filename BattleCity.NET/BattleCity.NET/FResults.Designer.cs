@@ -38,7 +38,6 @@
 			this.chAntibonuses = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.chHPLost = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.chDistance = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.bSave = new System.Windows.Forms.Button();
 			this.bExit = new System.Windows.Forms.Button();
 			this.bRestart = new System.Windows.Forms.Button();
 			this.pbFirst = new System.Windows.Forms.PictureBox();
@@ -115,16 +114,6 @@
 			this.chDistance.Text = "Distance traveled";
 			this.chDistance.Width = 95;
 			// 
-			// bSave
-			// 
-			this.bSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.bSave.Location = new System.Drawing.Point(12, 438);
-			this.bSave.Name = "bSave";
-			this.bSave.Size = new System.Drawing.Size(136, 23);
-			this.bSave.TabIndex = 1;
-			this.bSave.Text = "Save results";
-			this.bSave.UseVisualStyleBackColor = true;
-			// 
 			// bExit
 			// 
 			this.bExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -146,6 +135,7 @@
 			this.bRestart.TabIndex = 2;
 			this.bRestart.Text = "New game";
 			this.bRestart.UseVisualStyleBackColor = true;
+			this.bRestart.Click += new System.EventHandler(this.bRestart_Click);
 			// 
 			// pbFirst
 			// 
@@ -169,6 +159,7 @@
 			this.pbSecond.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
 			this.pbSecond.TabIndex = 5;
 			this.pbSecond.TabStop = false;
+			this.pbSecond.Visible = false;
 			// 
 			// pbThird
 			// 
@@ -180,6 +171,7 @@
 			this.pbThird.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
 			this.pbThird.TabIndex = 6;
 			this.pbThird.TabStop = false;
+			this.pbThird.Visible = false;
 			// 
 			// lFirst
 			// 
@@ -204,6 +196,7 @@
 			this.lSecond.TabIndex = 8;
 			this.lSecond.Text = "Иванов Сергей Иванович";
 			this.lSecond.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.lSecond.Visible = false;
 			// 
 			// lThird
 			// 
@@ -216,10 +209,10 @@
 			this.lThird.TabIndex = 9;
 			this.lThird.Text = "Иванов Сергей Иванович";
 			this.lThird.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.lThird.Visible = false;
 			// 
 			// FResults
 			// 
-			this.AcceptButton = this.bSave;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.bExit;
@@ -227,7 +220,6 @@
 			this.Controls.Add(this.pbFirst);
 			this.Controls.Add(this.bRestart);
 			this.Controls.Add(this.bExit);
-			this.Controls.Add(this.bSave);
 			this.Controls.Add(this.lvResults);
 			this.Controls.Add(this.pbSecond);
 			this.Controls.Add(this.pbThird);
@@ -236,12 +228,13 @@
 			this.Controls.Add(this.lFirst);
 			this.MinimumSize = new System.Drawing.Size(700, 400);
 			this.Name = "FResults";
-			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Game results";
 			((System.ComponentModel.ISupportInitialize)(this.pbFirst)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pbSecond)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pbThird)).EndInit();
 			this.ResumeLayout(false);
+
 		}
 
 		#endregion
@@ -255,7 +248,6 @@
 		private System.Windows.Forms.ColumnHeader chAntibonuses;
 		private System.Windows.Forms.ColumnHeader chHPLost;
 		private System.Windows.Forms.ColumnHeader chDistance;
-		private System.Windows.Forms.Button bSave;
 		private System.Windows.Forms.Button bExit;
 		private System.Windows.Forms.Button bRestart;
 		private System.Windows.Forms.PictureBox pbFirst;

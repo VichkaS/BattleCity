@@ -114,17 +114,23 @@ namespace BattleCity.NET
 
         private void bNext_Click(object sender, EventArgs e)
         {
-			FBattleScreen battleScreen = new FBattleScreen();
+			var participants = new List<CTankInfo>();
 
 			for (int i = 0; i < lvTanks.Items.Count; i++)
             {
-				CTankInfo tankInfo = (CTankInfo)lvTanks.Items[i].Tag;
-				battleScreen.NewTank(tankInfo);
+				participants.Add((CTankInfo)lvTanks.Items[i].Tag);
             }
 
+			CTournament tournament = new CTournament(m_params, participants);
             this.Hide();
-			battleScreen.ShowDialog(this);
-			this.Close();
+			if (tournament.HoldTournament())
+			{
+				this.Show();
+			}
+			else
+			{
+				this.Close();
+			}
         }
 
 		private void bSettings_Click(object sender, EventArgs e)

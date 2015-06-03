@@ -61,6 +61,26 @@ namespace BattleCity.NET.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap background {
+            get {
+                object obj = ResourceManager.GetObject("background", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap bonus {
+            get {
+                object obj = ResourceManager.GetObject("bonus", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
         internal static System.IO.UnmanagedMemoryStream explode {
@@ -80,16 +100,6 @@ namespace BattleCity.NET.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap fon {
-            get {
-                object obj = ResourceManager.GetObject("fon", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
         internal static System.IO.UnmanagedMemoryStream game_over {
@@ -104,16 +114,6 @@ namespace BattleCity.NET.Properties {
         internal static System.IO.UnmanagedMemoryStream level_start {
             get {
                 return ResourceManager.GetStream("level_start", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap MedicineChest {
-            get {
-                object obj = ResourceManager.GetObject("MedicineChest", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
