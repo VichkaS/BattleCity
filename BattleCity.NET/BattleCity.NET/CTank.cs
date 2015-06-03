@@ -190,16 +190,29 @@ namespace BattleCity.NET
             }
         }
 
+		private void DrawProgressBar(Graphics graph, int elevation, int value, int valueMax)
+		{
+			int pbLength = Convert.ToInt32((value * 60f) / valueMax);
+			Color pbColor = pbLength <= 15 ? Color.Red : Color.Green;
+
+			graph.FillRectangle(new SolidBrush(pbColor), (int)m_x - 30, (int)m_y - elevation, pbLength, 10);
+			graph.DrawRectangle(new Pen(Color.White),    (int)m_x - 30, (int)m_y - elevation, 60,       10);
+		}
+
         public void Draw(Graphics graph)
         {
             if (m_destroyed)
             {
                 return;
             }
+
             if (!IsDead())
             {
                 graph.DrawImage(m_base, FBattleScreen.GetRotatedRectangle(m_baseDirection, CConstants.tankSize, m_x, m_y));
                 graph.DrawImage(m_turret, FBattleScreen.GetRotatedRectangle(m_turretDirection, CConstants.turretSize, m_x, m_y));
+
+				DrawProgressBar(graph, 60, m_health, 100);
+				DrawProgressBar(graph, 47, m_reload, CConstants.reloadTime);
             }
             else
             {
@@ -207,36 +220,11 @@ namespace BattleCity.NET
             }
         }
 
-        private void SetProgressBar(CProgressBar progress, int offset, int valPreaload, Color color)
-        {
-            progress.Size = new Size(100, 10);
-            int x = (int)m_x - CConstants.tankSize / 2;
-            int y = (int)m_y - offset;
-            progress.Location = new Point(x, y);
-            progress.Value = valPreaload;
-            progress.ForeColor = Color.Transparent;
-            progress.BackColor = Color.Transparent;
-            progress.BorderWidth = 2;
-            progress.BorderColor = Color.White;
-            progress.ProgressColor = color;
-            if (m_health == 0)
-            {
-                progress.Visible = false;
-            }
-            else
-            {
-                progress.Visible = true;
-                progress.Show();
-            }
-        }
-
-        public void SetTankInfo(ProgressBar pbHealth, ProgressBar pbReload, Label hits, Label condition, PictureBox pbox, GroupBox gb, CProgressBar progressBar, CProgressBar progressBarHealth)
+        public void SetTankInfo(ProgressBar pbHealth, ProgressBar pbReload, Label hits, Label condition, PictureBox pbox, GroupBox gb)
         {
             pbHealth.Value = m_health;
             pbReload.Value = m_reload * pbReload.Maximum / CConstants.reloadTime;
             Color color =  (m_health < 40 ) ? Color.Red : Color.Green;
-            SetProgressBar(progressBar, CConstants.tankSize / 2, pbReload.Value, Color.Green);
-            SetProgressBar(progressBarHealth, CConstants.tankSize / 2 + 10, pbHealth.Value, color);
             hits.Text = Convert.ToString(m_hits);
             if (!IsDead())
             {

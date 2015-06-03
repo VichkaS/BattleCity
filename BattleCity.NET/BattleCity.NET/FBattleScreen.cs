@@ -14,18 +14,12 @@ namespace BattleCity.NET
 {
     public partial class FBattleScreen : Form
     {
-        public FBattleScreen(int countTanks)
+        public FBattleScreen()
         {
             InitializeComponent();
-            /*this.SetStyle(ControlStyles.AllPaintingInWmPaint |
-               ControlStyles.UserPaint |
-               ControlStyles.DoubleBuffer, true);*/
-            //this.BackgroundImageLayout = ImageLayout.None;
-
-			//this.BackgroundImage = (Bitmap)Properties.Resources.ResourceManager.GetObject("fon"); 
+            
 			m_ImageMedicineChest = (Bitmap)Properties.Resources.ResourceManager.GetObject("MedicineChest");
 
-            //tRender.Interval = CConstants.refreshTime;
             this.Width = CConstants.formWidth + 218;
             this.Height = CConstants.formHeight + 47;
             shells = new List<CShell>();
@@ -33,24 +27,12 @@ namespace BattleCity.NET
             explosions = new List<CExplosion>();
 			CResourceManager.Instance.PlaySound(CResourceManager.SoundEffect.GameStart);
             m_medChests = new CManagerMedChest(tanks);
-            for (int i = 0; i < 4; ++i)
-            {
-                listProgressBar.Add(new CProgressBar());
-                listProgressBarHealth.Add(new CProgressBar());
-                if (i < countTanks)
-                {
-                    this.Controls.Add(listProgressBar[i]);
-                    this.Controls.Add(listProgressBarHealth[i]);
-                }
-             }
 
 			m_IsRunning = true;
 			m_RenderThread = new Thread(GameLoop);
         }
 
 		private Thread m_RenderThread;
-        List<CProgressBar> listProgressBar = new List<CProgressBar>();
-        List<CProgressBar> listProgressBarHealth = new List<CProgressBar>();
         private List<CTank> tanks;
         private List<CShell> shells;
         private List<CExplosion> explosions;
@@ -84,15 +66,17 @@ namespace BattleCity.NET
         private void RefreshInterface()
         {
             if (tanks.Count < 1) return;
-            tanks[0].SetTankInfo(pbPlayer1Health, pbPlayer1Reload, lPlayer1Hits, lPlayer1Condition, pbTank1Image, gbPlayer1, listProgressBar[0], listProgressBarHealth[0]);
+            tanks[0].SetTankInfo(pbPlayer1Health, pbPlayer1Reload, lPlayer1Hits, lPlayer1Condition, pbTank1Image, gbPlayer1);
             if (tanks.Count < 2) return;
-            tanks[1].SetTankInfo(pbPlayer2Health, pbPlayer2Reload, lPlayer2Hits, lPlayer2Condition, pbTank2Image, gbPlayer2, listProgressBar[1], listProgressBarHealth[1]);
+            tanks[1].SetTankInfo(pbPlayer2Health, pbPlayer2Reload, lPlayer2Hits, lPlayer2Condition, pbTank2Image, gbPlayer2);
             if (tanks.Count < 3) return;
-            tanks[2].SetTankInfo(pbPlayer3Health, pbPlayer3Reload, lPlayer3Hits, lPlayer3Condition, pbTank3Image, gbPlayer3, listProgressBar[2], listProgressBarHealth[2]);
+            tanks[2].SetTankInfo(pbPlayer3Health, pbPlayer3Reload, lPlayer3Hits, lPlayer3Condition, pbTank3Image, gbPlayer3);
             if (tanks.Count < 4) return;
-            tanks[3].SetTankInfo(pbPlayer4Health, pbPlayer4Reload, lPlayer4Hits, lPlayer4Condition, pbTank4Image, gbPlayer4, listProgressBar[3], listProgressBarHealth[3]);
+            tanks[3].SetTankInfo(pbPlayer4Health, pbPlayer4Reload, lPlayer4Hits, lPlayer4Condition, pbTank4Image, gbPlayer4);
         }
 
+		// 30 FPS
+		private readonly int m_FrameRenderTime = 1000 / 30;
 		private void GameLoop()
 		{
 			Bitmap backgroundImage = Properties.Resources.fon; 
@@ -120,18 +104,18 @@ namespace BattleCity.NET
 					if (shells[i].IsVisible())
 						shells[i].Draw(gr);
 				}
-				for (int i = 0; i < explosions.Count; i++)
+				foreach (var explosion in explosions)
 				{
-					explosions[i].Draw(gr);
+					explosion.Draw(gr);
 				}
-				m_medChests.DrawAllMedchests(gr, tanks, ref m_ImageMedicineChest);
+				m_medChests.DrawAllMedchests(gr, tanks, m_ImageMedicineChest);
 
 				if (m_IsRunning)
 					formGraphics.DrawImageUnscaled(screen, new Point(0, 0));
 
 				int oldTicks = ticks;
 				ticks = Environment.TickCount;
-				int sleepTime = 20 - (ticks - oldTicks);
+				int sleepTime = m_FrameRenderTime - (ticks - oldTicks);
 				if (sleepTime > 0)
 				{
 					Thread.Sleep(sleepTime);
@@ -274,6 +258,7 @@ namespace BattleCity.NET
 
 		private bool m_IsRunning;
 		private int m_FPS;
+
         private void UpdateScreen()
         {
 			m_FPS++;
@@ -304,7 +289,6 @@ namespace BattleCity.NET
             RefreshTanks();
             RefreshShells();
             RefreshExplosions();
-            //RefreshInterface();
         }
 
         private void FBattleScreen_FormClosing(object sender, FormClosingEventArgs e)

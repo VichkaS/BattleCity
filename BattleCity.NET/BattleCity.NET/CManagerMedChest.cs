@@ -30,7 +30,7 @@ namespace BattleCity.NET
             m_MedicineChests.Add(new CMedicineChest(rnd, m_Tanks, m_MedicineChests));
         }
 
-        public void DrawAllMedchests(Graphics e, List<CTank> Tanks, ref Image imageMedChest)
+        public void DrawAllMedchests(Graphics e, List<CTank> Tanks, Image imageMedChest)
         {
             List<int> tmp = new List<int>();
             for (int i = 0; i < m_MedicineChests.Count(); ++i)

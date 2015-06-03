@@ -114,7 +114,7 @@ namespace BattleCity.NET
 
         private void bNext_Click(object sender, EventArgs e)
         {
-			FBattleScreen battleScreen = new FBattleScreen(lvTanks.Items.Count);
+			FBattleScreen battleScreen = new FBattleScreen();
 
 			for (int i = 0; i < lvTanks.Items.Count; i++)
             {

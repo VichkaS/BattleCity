@@ -74,9 +74,6 @@
     <Compile Include="CManagerMedChest.cs" />
     <Compile Include="CMatchParameters.cs" />
     <Compile Include="CMedicineChest.cs" />
-    <Compile Include="CProgressBar.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="CResourceManager.cs" />
     <Compile Include="CShell.cs" />
     <Compile Include="CShellTrack.cs" />
